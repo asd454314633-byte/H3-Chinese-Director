@@ -1,0 +1,11 @@
+subject_definitions: <Subject 1> is the person shown in <Picture 1>. Describe facial identity, hair, age and clothing here. <Picture 2>/<Picture 3> add additional views; they must not change identity.
+summary: One continuous shot of <Subject 1>. Replace this line with your own summary.
+retention_analysis: Preserve face, hairstyle, body proportions and clothing throughout. No text, watermark or additional person.
+detailed_description: [Shot 1] From 00:00.000 to 00:08.000 describe camera and motion here.
+overall_soundscape: Describe room ambience here; no dialogue.
+non_diegetic_music: Describe background music here.
+
+[NOTE]
+This is a SYNTHETIC placeholder shipped with the public repository.
+It keeps only the official field names and <Picture N> / <Subject N> placeholders.
+The author's own creative text is NOT published here.

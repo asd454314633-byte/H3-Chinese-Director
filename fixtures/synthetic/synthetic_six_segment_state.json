@@ -1,0 +1,33 @@
+{
+ "_note": "SYNTHETIC schema fixture. Field structure only; no real creative text, no real assets.",
+ "six_prompt_state": {
+  "settings": "",
+  "goal": "",
+  "model": "dark_roast",
+  "texts": ["", "", "", "", "", ""],
+  "execution": {
+   "continuous": false,
+   "start_index": 0,
+   "start_mode": "resume",
+   "project_id": "H3_SIX_V288"
+  },
+  "video_refs": [null, null, null, null, null, null]
+ },
+ "h3_prebake_story_id": "",
+ "h3_prebake_texts": ["", "", "", "", "", ""],
+ "h3_prebake_revisions": [0, 0, 0, 0, 0, 0],
+ "h3_prebake_bake_receipts": [],
+ "h3_prebake_last_plan": null,
+ "field_semantics": {
+  "texts": "6 slots, one per segment; empty string = neutral default for a new user",
+  "goal": "global story goal; empty in the public neutral default",
+  "settings": "global settings text; empty in the public neutral default",
+  "model": "compilation style profile identifier (non-personal)",
+  "execution.continuous": "safety default false; explicit batch action turns it on",
+  "execution.start_index": "resume cursor, 0-based",
+  "execution.start_mode": "resume | restart",
+  "execution.project_id": "non-personal project identifier",
+  "video_refs": "per-segment reference asset slots; null = unset",
+  "h3_prebake_*": "Conditioning PreBake cache bookkeeping; all neutral on a clean install"
+ }
+}

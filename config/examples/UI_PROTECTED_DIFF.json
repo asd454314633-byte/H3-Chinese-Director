@@ -1,0 +1,261 @@
+{
+ "production_drift": [],
+ "existing_runtime_changes": [
+  "custom_nodes\\H3_Prompt_Sidecar\\web\\h3_six_segment_director.js"
+ ],
+ "candidate_node_changes": [
+  {
+   "node": 985,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 2 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_guide_branch": 2,
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   },
+   "after": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 2 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   }
+  },
+  {
+   "node": 985,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 986,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 2 未选图保护",
+    "h3_guide_branch": 2
+   },
+   "after": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 2 未选图保护"
+   }
+  },
+  {
+   "node": 986,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 989,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 3 未选图保护",
+    "h3_guide_branch": 3
+   },
+   "after": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 3 未选图保护"
+   }
+  },
+  {
+   "node": 989,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 983,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 1 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_guide_branch": 1,
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   },
+   "after": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 1 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   }
+  },
+  {
+   "node": 983,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 984,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 1 未选图保护",
+    "h3_guide_branch": 1
+   },
+   "after": {
+    "Node name for S&R": "H3GuideImageGuard",
+    "_why": "STEP 34 时间轴关键帧 1 未选图保护"
+   }
+  },
+  {
+   "node": 984,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 988,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 3 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_guide_branch": 3,
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   },
+   "after": {
+    "Node name for S&R": "LoadImageCrop",
+    "_why": "STEP 34 时间轴关键帧 3 素材源",
+    "aux_id": "obvpm/comfyui-obvpm",
+    "h3_internal_dashboard_source": true,
+    "ue_properties": {
+     "input_ue_unconnectable": {},
+     "version": "7.8",
+     "widget_ue_connectable": {}
+    },
+    "ver": "7d5b977add00c2fb9690dca9a5f20023a47c8a80"
+   }
+  },
+  {
+   "node": 988,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 159,
+   "field": "pos",
+   "before": [
+    70.73829400817907,
+    212.21535695296595
+   ],
+   "after": [
+    1200,
+    80
+   ]
+  },
+  {
+   "node": 992,
+   "field": "pos",
+   "before": [
+    920.988278263561,
+    82.64869278875803
+   ],
+   "after": [
+    50,
+    80
+   ]
+  },
+  {
+   "node": 965,
+   "field": "properties",
+   "before": {
+    "Node name for S&R": "H3GuideTimeline",
+    "_why": "STEP 34 时间轴关键帧 1 注入（Core 原生节点）",
+    "cnr_id": "comfy-core",
+    "h3_guide_branch": 1,
+    "ver": "0.36.0"
+   },
+   "after": {
+    "Node name for S&R": "H3GuideTimeline",
+    "_why": "STEP 34 时间轴关键帧 1 注入（Core 原生节点）",
+    "cnr_id": "comfy-core",
+    "ver": "0.36.0"
+   }
+  },
+  {
+   "node": 965,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 1059,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 1060,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 1061,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 1062,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  },
+  {
+   "node": 1063,
+   "field": "mode",
+   "before": 0,
+   "after": 4
+  }
+ ],
+ "candidate_extra_changes": {
+  "h3_chinese_switches": {
+   "enabled": true,
+   "version": 1
+  }
+ },
+ "topology_changed": false,
+ "subgraphs_changed": false,
+ "GENERATION_CORE_CHANGED": "NO",
+ "PREBAKE_CHANGED": "NO",
+ "CONTINUATION_CORE_CHANGED": "NO",
+ "NODE1058_CHANGED": "NO",
+ "COMFY_CORE_CHANGED": "NO",
+ "PRODUCTION_8197_CHANGED": "NO"
+}

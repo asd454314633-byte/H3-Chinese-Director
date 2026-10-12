@@ -1,0 +1,72 @@
+# ---- 模型权重：本仓库原则上不含任何权重，以下为双重保险 ----
+*.safetensors
+*.safetensors.index
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+*.gguf
+*.npy
+*.npz
+*.msgpack
+*.gguf-split
+
+# ---- 媒体与生成产物 ----
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.webm
+*.flv
+*.wav
+*.mp3
+*.flac
+*.ogg
+*.m4a
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.gif
+*.bmp
+*.tiff
+*.raw
+
+# ---- 运行环境 ----
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+node_modules/
+site-packages/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+
+# ---- 缓存与临时 ----
+*.tmp
+*.temp
+*.bak
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- 本地私有产物（不进版本库） ----
+# 注意：不忽略 *.log 与 *.json —— 脱敏后的历史日志与证据属于本仓库有意公开的内容，
+# 门禁已逐文件扫描；这里若忽略会造成「静默丢件」。真正的私密凭据由扫描门禁拦截。
+.env
+.env.*
+*.local
+output/
+input/
+temp/
+tmp/
+
+# ---- 打包产物 ----
+*.zip
+*.7z
+*.tar
+*.tar.gz
+*.rar

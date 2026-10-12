@@ -1,0 +1,85 @@
+# SANITIZED_PUBLIC_COPY — 本文件由私有原件经内容级脱敏生成：已移除个人素材/媒体、个人创作提示词、本机绝对路径、身份与凭据、运行状态；历史结论、日期、耗时与验收结果未作任何篡改。
+# V26 Core Lab — READ-ONLY model reuse. No weights are copied into this tree.
+# The production model directories below are referenced, never written to by this lab.
+# Reference mechanism is identical to the frozen 8193 baseline's extra_model_paths.yaml.
+
+comfyui_production_models:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  diffusion_models: models/diffusion_models
+  text_encoders: models/text_encoders
+  vae: models/vae
+  loras: models/loras
+  vae_approx: models/vae_approx
+  frame_interpolation: models/frame_interpolation
+  latent_upscale_models: models/latent_upscale_models
+  model_patcher: models/model_patcher
+  audio_encoders: models/audio_encoders
+  clip: models/clip
+  controlnet: models/controlnet
+  embeddings: models/embeddings
+  gligen: models/gligen
+  hypernetworks: models/hypernetworks
+  photomaker: models/photomaker
+  style_models: models/style_models
+  upscale_models: models/upscale_models
+  vae_decode: models/vae_decode
+  vae_encode: models/vae_encode
+
+# FastH3 / FastVideo VSA weights live outside the production tree (same share 8193 uses).
+h3_fl2va_fastvsa:
+  base_path: <REDACTED_LOCAL_PATH>/C
+  diffusion_models: .
+
+# NOTE: <REDACTED_LOCAL_PATH>/D
+# standard ComfyUI model folder. V28.1 maps it read-only into the native LoRA loader so the
+# current Core PDD head-bank implementation is used. Do not install the legacy PDD-Acc wrapper.
+# (SUPERSEDED 2026-09-29 GATE8D_P0: the native-LoRA-loader route provably loaded 0/728
+# tensors — see V28_2_PDD_RUNTIME_LOADER_FORENSICS_20260929.md. The PDD backend now goes
+# through the audited ComfyUI-MiniMax-H3-PDD-Acc Apply node (junction-mounted in
+# custom_nodes). The "loras" mapping below is KEPT only for forensic rollback.)
+h3_pdd_acc_native:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  loras: .
+
+# GATE8D_P0 (2026-09-29): folder-type mapping for MiniMaxH3PDDAccApply, which reads its
+# pdd_file input through folder_paths type "pdd_acc". Read-only reuse of the production
+# dir; no weights copied into this lab.
+h3_pdd_acc_apply:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  pdd_acc: .
+
+# NextGen validated shared model paths; no weights copied.
+h3_nextgen_shared_models:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  model_patches: model_patches
+  checkpoints: checkpoints
+  diffusion_models: diffusion_models
+  geometry_estimation: geometry_estimation
+
+# --- Lustify v10 Krea 2 Turbo INT8 ConvRot (added 2026-10-08, GATE: 8207 独立部署) ---
+# Self-contained asset library, referenced READ-ONLY. No weights copied into this tree,
+# nothing here is written back by ComfyUI. is_default deliberately NOT set, so outputs
+# never land in this library. Independent of the H3 production model configuration.
+lustify_v10_krea2_library:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  diffusion_models: models/diffusion_models
+  text_encoders: models/text_encoders
+  vae: models/vae
+
+# Identity Edit v1.2: read-only model lookup; outputs remain in runtime.
+lustify_v10_identity_edit_library:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  loras: models/loras
+
+# --- Qwen Image 2.1 INT8 ConvRot (added 2026-10-10, GATE: 8207 双图像模型集成) ---
+# 千问 Qwen Image 2.1 三件套只存在于 8196 V26 Lab 自有模型目录，8193 生产库没有同款权重。
+# 这里按官方 extra_model_paths 机制只读引用，零字节复制，不设 is_default。
+#   unet : qwen_image_2.1_int8_convrot.safetensors        (7,256,783,064 B)
+#   clip : qwen3vl_8b_int8_convrot.safetensors            (9,350,798,360 B)
+#   vae  : qwen_image_2.1_vae_bf16.safetensors            (  675,509,688 B)
+# 只映射工作流实际需要的三个类型；未映射 loras，避免 NSFW/其它 LoRA 混入 8207 枚举。
+qwen21_v26_lab_models:
+  base_path: <REDACTED_LOCAL_PATH>/D
+  diffusion_models: models/diffusion_models
+  text_encoders: models/text_encoders
+  vae: models/vae

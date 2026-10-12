@@ -1,0 +1,30 @@
+[
+ {
+  "role": "h3",
+  "path": "<REDACTED_LOCAL_PATH>/D",
+  "sha256": "",
+  "bytes": 20970379616,
+  "mtime_ns": 1785815795784756300
+ },
+ {
+  "role": "te",
+  "path": "<REDACTED_LOCAL_PATH>/D",
+  "sha256": "",
+  "bytes": 15687142551,
+  "mtime_ns": 1785817944047070800
+ },
+ {
+  "role": "video_vae",
+  "path": "<REDACTED_LOCAL_PATH>/D",
+  "sha256": "",
+  "bytes": 3171670912,
+  "mtime_ns": 1788335081756486000
+ },
+ {
+  "role": "audio_vae",
+  "path": "<REDACTED_LOCAL_PATH>/D",
+  "sha256": "",
+  "bytes": 605254808,
+  "mtime_ns": 1785818119126088500
+ }
+]

@@ -1,0 +1,20 @@
+{
+ "task_root": "<REDACTED_LOCAL_PATH>/D",
+ "runtime_root": "<REDACTED_LOCAL_PATH>/D",
+ "port": 8207,
+ "production_workflow_sha256": "",
+ "source_files": 2851,
+ "models": "shared read-only references via unmodified extra_model_paths.yaml",
+ "input": "<REDACTED_LOCAL_PATH>/D",
+ "output": "<REDACTED_LOCAL_PATH>/D",
+ "temp": "<REDACTED_LOCAL_PATH>/D",
+ "user": "<REDACTED_LOCAL_PATH>/D",
+ "database": "sqlite:///:memory:",
+ "core_modified": false,
+ "started": true,
+ "visible_console": true,
+ "listener_pid": null,
+ "console_launcher_pid": null,
+ "prebake_cache_interface_changed": false,
+ "single_acceptance_continuous": false
+}

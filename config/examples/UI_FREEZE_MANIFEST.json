@@ -1,0 +1,42 @@
+{
+ "timestamp": "<REDACTED_TIMESTAMP>",
+ "port": 8207,
+ "production_promotion": false,
+ "real_attempts": 1,
+ "prompt_id": "<REDACTED_RUNTIME_ID>",
+ "flags": {
+  "GUIDE_SWITCH": "PASS",
+  "POSE_SWITCH": "PASS",
+  "POSE_EMPTY_AUTO_OFF": "PASS",
+  "CLEAN_REBASE_SWITCH": "PASS",
+  "REQUIRED_INPUT_ERRORS": 0,
+  "POSE_OFF_UNION2_EXECUTION_CLOSURE": "NO",
+  "POSE_EMPTY_GET_VIDEO_COMPONENTS_EXECUTION": "NO",
+  "ONE_REAL_VIDEO_ACCEPTANCE": "FAIL",
+  "FULL_SWITCH_UI_8207": "HOLD",
+  "PRODUCTION_8197_CHANGED": "NO",
+  "READY_FOR_8197_PROMOTION": "NO",
+  "GENERATION_CORE_CHANGED": "NO",
+  "PREBAKE_CHANGED": "NO",
+  "CONTINUATION_CORE_CHANGED": "NO",
+  "NODE1058_CHANGED": "NO",
+  "COMFY_CORE_CHANGED": "NO"
+ },
+ "sha256": {
+  "candidate\\V29_NEXTGEN_CHINESE_DIRECTOR_UI_8207_CANDIDATE.json": "",
+  "frontend\\chinese_director.js": "",
+  "runtime\\custom_nodes\\H3_ChineseDirectorUI\\__init__.py": "",
+  "runtime\\custom_nodes\\H3_ChineseDirectorUI\\js\\chinese_director.js": "",
+  "runtime\\custom_nodes\\H3_Prompt_Sidecar\\web\\h3_six_segment_director.js": "",
+  "UI_GRAPH_MAPPING.json": "",
+  "UI_PROTECTED_DIFF.json": "",
+  "UI_RUNTIME_MANIFEST.json": "",
+  "evidence\\STATIC_G2P_ACCEPTANCE.json": "",
+  "evidence\\ONE_REAL_HISTORY.json": "",
+  "UI_ACCEPTANCE_REPORT.md": "",
+  "evidence\\PDD_DEPENDENCY_RESTORED.json": "",
+  "evidence\\FINAL_CANDIDATE_LOAD.json": "",
+  "runtime\\custom_nodes\\ComfyUI-MiniMax-H3-PDD-Acc\\adaln_basis\\basis_ref2va.safetensors": "",
+  "runtime\\custom_nodes\\ComfyUI-MiniMax-H3-PDD-Acc\\adaln_basis\\basis_fl2va.safetensors": ""
+ }
+}

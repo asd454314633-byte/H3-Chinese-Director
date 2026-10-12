@@ -1,0 +1,48 @@
+{
+ "scope": "8207 only; existing node modes/widgets; original serializer and executor",
+ "guide": {
+  "switch": "关键画面",
+  "timeline": 965,
+  "image_slots": [
+   983,
+   985,
+   988
+  ],
+  "guard_slots": [
+   984,
+   986,
+   989
+  ],
+  "off": "all mode=4; files retained",
+  "empty": "auto off with Chinese notice",
+  "ownership": "legacy h3_guide_branch tags removed in candidate only"
+ },
+ "pose": {
+  "switch": "动作控制",
+  "branch": [
+   1059,
+   1060,
+   1061,
+   1062,
+   1063
+  ],
+  "video": 1061,
+  "off_or_empty": "all mode=4; no Union2/GetVideoComponents execution closure"
+ },
+ "rebase": {
+  "switch": "连续增强",
+  "subgraph": 1056,
+  "classes": [
+   "H3ContinuationPrepare",
+   "H3ContinuationTrimOnce"
+  ],
+  "widget": "clean_rebase_enabled",
+  "fixed_segment": 3
+ },
+ "surface": {
+  "left": 992,
+  "right": 159,
+  "new_uploads_right": 4,
+  "new_uploads_left": 0
+ }
+}
