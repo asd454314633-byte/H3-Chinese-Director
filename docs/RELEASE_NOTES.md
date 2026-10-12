@@ -9,7 +9,7 @@
 | 完成条件键 | 结果 |
 |---|---|
 | `SINGLE_V29_WORKFLOW` | **PASS** — 公开包内只有 `workflows/current/V29_chinese_director_production_8197.json` |
-| `PUBLIC_HISTORY_REMOVAL` | **PASS** — `workflows/history/`、`history/`、历史清单与排除清单已全部退出公开包 |
+| `PUBLIC_HISTORY_REMOVAL` | **PASS** — `workflows/history/`、`history/`、历史清单与排除清单、8207 实验线镜像源码已全部退出公开树；全新 Git 历史仅 1 个无父提交，旧内容不经任何父提交可达（旧提交 SHA 在官方对象库清理前仍可直接访问，见文末诚实声明，**不宣称"完全删除"**） |
 | `WORKFLOW_PRIVACY_AUDIT` | **PASS** — 逐节点（181 顶层 + 子图 15）隐私审计，见 `docs/SECURITY_AND_PRIVACY.md` 第 6 节 |
 | `SOURCE_CODE_PRESERVED` | **PASS** — 8197 冻结生产线自研节点/前端/运行接口/安装工具/许可/模型来源/二次开发文档完整保留（8207 实验线镜像源码已整体排除，不为唯一工作流所需） |
 | `FRESH_CLONE_VERIFY` | **PASS** — 空目录全新克隆复核（文件数、逐文件 SHA256、结构门禁、敏感扫描、历史不可达） |
@@ -95,17 +95,38 @@ Windows Git 客户端预配置（longpaths / autocrlf）、安装指南 cd 路�
 ## 待 GitHub Support 清理对象（诚实声明）
 
 force-push 与 Release 删除**不等于**外部副本消失。以下对象在删除动作之后仍可能在一段时间内被直接命中，
-需通过 GitHub Support / 官方渠道逐项请求清理；本仓库不宣称它们已经彻底不存在：
+需通过 GitHub Support / 官方渠道逐项请求清理；本仓库不宣称它们已经彻底不存在。
 
-| 类型 | 对象 | 说明 |
-|---|---|---|
-| 旧提交（按 SHA 直接访问） | `2e2542ca0d759fbfee9d9c66390cea7ff1d37c39` | v29 首版；含当时的 197 份工作流与 6,335 份历史档案 |
-| 旧提交（按 SHA 直接访问） | `7756374`（v29.1）、`9145c27`（v29.2 前） | v29.1 文档补丁 / 被 filter-repo 重写前的提交 |
-| 旧提交（filter-repo 重写产物） | `0cbe3d1`、`a4f3896`、`ae85f75` | v29.2 重写后的三个提交，v29.3 全新历史后即不可达 |
-| 旧标签 | `v29`、`v29.2` | 已删除；Git 服务端标签缓存可能短时残留 |
-| 旧 Release 与附件 | `v29`（source-full.zip 50.0 MB / history-archive.zip 42.5 MB / SHA256SUMS）、`v29.2`（source-full.zip 49.99 MB / history-archive.zip 42.48 MB / SHA256SUMS） | 已删除；Release 资产 CDN 缓存与已完成的下载链接需官方侧清理 |
-| 派生副本 | 任何 fork、GitHub 搜索索引、第三方镜像 / 搜索引擎快照 | 上线至今未见 fork 迹象；索引侧清除需官方执行 |
+v29.3 收口时的**实测可达性**（2026-10-12，匿名复查）：
+
+| 类型 | 对象 | 删除动作 | 匿名复查结果 |
+|---|---|---|---|
+| 旧 Release 页面 | `v29`、`v29.2` | 已删除（id 410437542，含 3 个附件） | **404（不可达）** |
+| 旧标签 | `v29.2` | 已删除 | 已不存在（`tags` 列表为空 → 仅剩 `v29.3`） |
+| 旧提交（按 SHA 直接访问） | `d19d35e`、`b3d3562`、`ae85f75`、`a4f3896`、`0cbe3d1`、`9145c27`、`2e2542c`、`7756374` | 失去全部引用（孤儿提交强推后不在 main 历史中） | **仍返回 200（可按 SHA 直接访问）→ 必须向 GitHub Support 申请清理** |
+| 旧 Release 附件 CDN 缓存 | `v29` / `v29.2` 的 source-full.zip、history-archive.zip | 已删除 | 下载链接失效，CDN 缓存需官方侧清理 |
+| 派生副本 | 任何 fork、GitHub 搜索索引、第三方镜像 / 搜索引擎快照 | — | 上线至今未见 fork 迹象；索引侧清除需官方执行 |
+
+**结论**：不得宣称"完全删除"。当前 main 历史（仅 `ee632c7f` 一个无父提交）、当前标签（仅 `v29.3`）与
+当前 Release 附件中，被撤回的内容**不可达**；但上述旧提交 SHA 在官方对象库清理前仍可直接访问，
+需按 GitHub 官方流程（<https://docs.github.com/articles/removing-sensitive-data-from-a-repository> →
+GitHub Support）提交清理请求，本仓库在其完成前持续标记该风险。
 
 ## 本次发布坐标
 
-（推送完成后由发布脚本回填，与远端实际值逐字一致。）
+- 仓库：<https://github.com/asd454314633-byte/H3-Chinese-Director>（Public）
+- 发布提交（孤儿提交，无父提交）：`ee632c7f2808628d28b589da17d5f4e65c44c226`
+- Release：`v29.3` — <https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.3>
+  - 附件：`H3-Chinese-Director-v29.3-source.zip`（清洁源码包，git archive of `ee632c7f`）、
+    `V29_chinese_director_production_8197.json`（唯一工作流）、`RELEASE_SHA256SUMS.txt`
+  - source.zip SHA256：`0f1fd15ec30105ab68aa46fcd9f92620817327b892025a93be7f7745ae1859cc`
+  - 工作流 JSON SHA256：`311609b1e03316e724b97c8cf8783451955cb22a12fd3ea31844e6632488302e`
+- 公开文件总数：175（`.py` 111 / `.js` 21 / `.md` 18 / `.json` 9 / `.cjs` 4 / `.txt` 3 / `.yaml` 2 / `.ps1` 2 / `.csv` 2 / `.ini` 1 / `.gitignore` 1 / `LICENSE` 1 —— 以 `git ls-files` 实测为准）
+- 唯一工作流：`workflows/current/V29_chinese_director_production_8197.json`
+  - Git blob SHA：`aadee988ad2cce4d946e9054643a72f4d0e41d6b`
+  - blob 字节 SHA256：`311609b1e03316e724b97c8cf8783451955cb22a12fd3ea31844e6632488302e`
+- 全新克隆复核：空目录克隆后 `git rev-list --count HEAD = 1`（无父提交）、175 文件、唯一工作流 Blob 不变、
+  全部门禁（源码可用性 / 结构 / 敏感扫描 / 残留 / 范围契约）复跑通过
+- 恢复点（仅本机，不上传）：`h3_publish/_private/pre_rewrite_mirror_20261012_full/`（强推前远端完整镜像克隆）、
+  `h3_publish/_private/pre_rewrite_backup_20261012.bundle`（更早的 bundle）、
+  `h3_publish/_private/excluded_8207_line_20261012/`（被排除的 8207 镜像源码副本）
