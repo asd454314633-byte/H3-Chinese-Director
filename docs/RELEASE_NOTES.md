@@ -77,6 +77,10 @@
 - **8207 实验线镜像源码整体排除**（`custom_nodes/local_author/8207_line/`）：依赖审计确认唯一 V29 工作流与必要安装工具均不依赖它；安装文档、README、架构文档、贡献清单与 `manifests/nodes.csv` 中指向它的引用全部修正，不留下失效的安装步骤；提示词残留判据未放宽（镜像删除后 `PERSONAL_PROMPT_RESIDUE=0` 为真实通过）。
 - 另修正一处运行回执外露：`scripts/verify/8207_acceptance_report.py` 中的真实 `prompt_id` 已替换为 `<REDACTED_RUNTIME_ID>`（与仓库脱敏契约一致）。
 
+### v29.3 补丁（2026-10-12）— Support 清理请求登记
+
+- 按 GitHub 官方流程提交 Support 清理工单 **#4849129**（`rr-remove-sensitive-data`），申请对 8 个仍可按 SHA 直接访问的旧提交执行服务端 GC、清除 cached views 与已删除 Release 附件的 CDN 缓存；文末「待 GitHub Support 清理对象」表已同步登记该工单号与剩余风险。**在 Support 完成清理前，本仓库持续标记该风险，不宣称已彻底清除。**
+
 ### v29.2（2026-10-12）— 个人创作提示词残留修复
 
 外部复审发现 1 份历史工作流残留完整个人创作提示词；自查扩展确认共 5 个签名、14 个历史工作流文件、
@@ -108,9 +112,19 @@ v29.3 收口时的**实测可达性**（2026-10-12，匿名复查）：
 | 派生副本 | 任何 fork、GitHub 搜索索引、第三方镜像 / 搜索引擎快照 | — | 上线至今未见 fork 迹象；索引侧清除需官方执行 |
 
 **结论**：不得宣称"完全删除"。当前 main 历史（仅 `ee632c7f` 一个无父提交）、当前标签（仅 `v29.3`）与
-当前 Release 附件中，被撤回的内容**不可达**；但上述旧提交 SHA 在官方对象库清理前仍可直接访问，
-需按 GitHub 官方流程（<https://docs.github.com/articles/removing-sensitive-data-from-a-repository> →
-GitHub Support）提交清理请求，本仓库在其完成前持续标记该风险。
+当前 Release 附件中，被撤回的内容**不可达**；但上述旧提交 SHA 在官方对象库清理前仍可直接访问。
+
+**Support 清理请求已提交（2026-10-12）**：按 GitHub 官方流程
+（<https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/removing-sensitive-data-from-a-repository>
+→ GitHub Support 联系表单，标签 `rr-remove-sensitive-data`）已创建工单
+**#4849129**（<https://help.github.com/ticket/personal/0/4849129>，状态 Open，优先级低），
+内容包含：仓库名、受影响 PR 数（0，实测无 PR / 无 fork）、待清理的 8 个旧提交完整 SHA、
+敏感内容性质说明（个人创作提示词残留 + 误纳入的 6,335 份历史档案，非可轮换凭据）、
+以及已完成的清理动作（孤儿提交强推 / 旧 Release 与标签删除）。同时申请清除旧提交 URL 的
+cached views 与已删除 Release 附件的 CDN 缓存。
+
+**剩余风险（在 Support 完成清理前持续有效）**：上表 8 个旧提交 SHA 实测仍返回 200；
+工单处理时长与结果由 GitHub 决定，本仓库持续标记该风险，**不宣称已彻底清除**。
 
 ## 本次发布坐标
 
