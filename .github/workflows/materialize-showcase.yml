@@ -55,6 +55,8 @@ jobs:
       - name: Publish verified media
         shell: bash
         run: |
-          git -c user.name='H3 Showcase Publisher' -c user.email=unset add -A assets/showcase
+          git add -u -- assets/showcase
+          # Only these two SHA256-verified showcase files bypass the general media ignore.
+          git add -f -- assets/showcase/h3-six-segment-demo-github.mp4 assets/showcase/demo-preview.gif
           git -c user.name='H3 Showcase Publisher' -c user.email=unset commit -m 'docs: materialize SHA256-verified showcase MP4 and GIF'
           git push origin HEAD:main
