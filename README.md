@@ -1,4 +1,16 @@
-# H3 中文导演台（H3-Chinese-Director）
+# H3 中文导演台｜ComfyUI MiniMax H3 Chinese Director
+
+**面向 ComfyUI 的 MiniMax-H3 多段连续视频生成工作流与全中文导演台。** 支持六段剧情编辑、连续生成与跨段 AV Latent 接续、Ref2VA 多图参考/FL2VA 首尾帧路线控制、Conditioning PreBake 缓存、自动视频合并。适合希望用中文管理长剧情、人物连续性和分段生成流程的 ComfyUI 用户。
+
+**English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
+
+### 快速查看
+
+- **下载工作流：** [唯一 V29 冻结版 JSON](workflows/current/V29_chinese_director_production_8197.json) · [正式发布包](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
+- **安装与使用：** [Windows 安装指南](docs/INSTALL_WINDOWS_8207.md) · [模型与依赖清单](docs/MODELS.md) · [功能与验收状态](docs/FEATURE_MATRIX.md)
+- **核心能力：** 中文控制面板｜六段视频连续生成｜上一段 latent 接续｜自动合并｜参考图/参考视频路线选择｜运行回执与状态安全检查
+- **验证边界：** 本机 8197 V29 生产基线已有 GPU 实测；公开版 V29.4 的源码整改通过离线检查，**没有**重新执行完整 GPU 端到端生成。
+- **注意：** 本仓库仅发布一套经脱敏的工作流与自研控制层，不包含模型权重、ComfyUI 本体及须独立安装的第三方依赖。
 
 面向 **MiniMax-H3 视频生成** 的**全中文集中控制导演台**：一个把「六段剧情编辑 → 连续视频生成调度 → 上一段 AV Latent 接续 → Conditioning PreBake 缓存 → 自动六段合并 → 工作流安全门控与运行回执校验 → 显存/内存生命周期工程化」串成一条生产链的完整控制层与自研节点实现。
 
