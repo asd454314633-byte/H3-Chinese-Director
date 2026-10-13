@@ -86,7 +86,7 @@ def scan(path, rel, text):
     for m in MEDIA_RE.finditer(text):
         # Recover the full basename: the legacy regex may match a suffix after '/'.
         full_start = m.start()
-        while full_start > 0 and re.match(r"[\\w\\u4e00-\\u9fff-]", text[full_start - 1]):
+        while full_start > 0 and (text[full_start - 1].isalnum() or text[full_start - 1] in "_-"):
             full_start -= 1
         if text[full_start:m.end()] in MEDIA_ALLOW:
             continue
