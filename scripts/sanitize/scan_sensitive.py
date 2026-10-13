@@ -84,7 +84,11 @@ def scan(path, rel, text):
                 continue
             add("abs_path", m.group(0))
     for m in MEDIA_RE.finditer(text):
-        if m.group(0) in MEDIA_ALLOW:
+        # Recover the full basename: the legacy regex may match a suffix after '/'.
+        full_start = m.start()
+        while full_start > 0 and re.match(r"[\\w\\u4e00-\\u9fff-]", text[full_start - 1]):
+            full_start -= 1
+        if text[full_start:m.end()] in MEDIA_ALLOW:
             continue
         if "/models/" in m.group(0) or m.group(0).endswith(".safetensors"):
             continue
