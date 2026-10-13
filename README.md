@@ -4,6 +4,25 @@
 
 **English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
+## 实录演示：视频效果与六段剧情控制界面
+
+本演示取自一条实际录屏，展示人物视频效果，以及录屏尾部的**六段提示词编辑界面与六段视频预览**。发布的画面已对私人提示词作脱敏处理。
+
+[![H3 中文导演台视频展示封面](assets/showcase/showcase-cover.jpg)](assets/showcase/h3-six-segment-demo-github.mp4)
+
+**[▶ 查看 55 秒演示视频（MP4，含音频）](assets/showcase/h3-six-segment-demo-github.mp4)**
+
+![六段提示词与视频预览面板（提示词已脱敏）](assets/showcase/six-segment-panel-redacted.png)
+
+<details>
+<summary>动态预览（无声）</summary>
+
+![H3 视频效果动态预览](assets/showcase/demo-preview.gif)
+
+</details>
+
+> **证据边界：** 录屏能够展示画面效果与六段编辑/预览界面的外观，但无法单独证明它来自 8197 冻结生产基线，也不能独立证明完整六段生成回执、AV Latent 接续、自动合并或性能数据；此类技术结论仍以独立验收证据为准。
+
 ### 快速查看
 
 - **下载工作流：** [唯一 V29 冻结版 JSON](workflows/current/V29_chinese_director_production_8197.json) · [正式发布包](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
@@ -91,9 +110,9 @@ manifests/nodes.csv     自研/第三方节点归属与许可台账
 
 ## 五、隐私与脱敏
 
-本仓库所有文件均为 `SANITIZED_PUBLIC_COPY`：已做**内容级**清洗（不是改文件名、不是加 `.gitignore`、不是删一张图），逐项移除：
+本仓库工作流、源码与配置文件均为 `SANITIZED_PUBLIC_COPY`；`assets/showcase/` 为经作者授权且遮挡私人提示词的演示素材例外：已做**内容级**清洗（不是改文件名、不是加 `.gitignore`、不是删一张图），逐项移除：
 
-- 全部用户图片/视频/音频/参考素材及其文件名、base64、data URI、缩略图与预览缓存
+- 除 `assets/showcase/` 经授权且脱敏的四份展示素材外，其他用户图片/视频/音频/参考素材及其文件名、base64、data URI、缩略图与预览缓存全部移除
 - 全部个人创作提示词（六段剧情、角色设定、台词、正负提示词、续写缓存、测试输入）
 - 全部本机个人化路径与身份（账户路径、用户名、设备标识、局域网地址、分享链接）
 - 全部密钥/凭据（token、PAT、API Key、Cookie、Authorization、数据库连接串）

@@ -1,0 +1,58 @@
+name: Materialize verified showcase media
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'assets/showcase/_staging/**'
+      - '.github/workflows/materialize-showcase.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble exact original media and remove transport chunks
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib, shutil
+          root=Path('assets/showcase')
+          stage=root/'_staging'
+          jobs=[
+              ('v', 10, 'h3-six-segment-demo-github.mp4',
+               'da7039a18f7c7afa15fcf96876d64fa874c6be6993c23829a7b245fdd42ae37b', 7197545),
+              ('g', 5, 'demo-preview.gif',
+               '6322bcfb9364d02e2ba9582a478994ed540abd6e8fd40a080d5a33b3b2a15c8a', 3535935),
+          ]
+          for prefix, count, output, expected, length in jobs:
+              parts=[stage/f'{prefix}{i:02d}' for i in range(count)]
+              assert all(p.is_file() for p in parts), f'Missing chunks: {output}'
+              b=b''.join(p.read_bytes() for p in parts)
+              assert len(b)==length, f'Bad length: {output}'
+              assert hashlib.sha256(b).hexdigest()==expected, f'Bad SHA256: {output}'
+              (root/output).write_bytes(b)
+          for name, expected in (
+              ('showcase-cover.jpg', 'bc6e3dd8e1db888e562a1cb0827f6bb52e5b1dbd492c36b62a941fd9195601d9'),
+              ('six-segment-panel-redacted.png', '19ba3f40fa328d5848e02cf5d34264544c87b2a06052d7e61accf67f6d5c015c'),
+          ):
+              assert hashlib.sha256((root/name).read_bytes()).hexdigest()==expected, f'Image digest mismatch: {name}'
+          shutil.rmtree(stage)
+          print('SHOWCASE_MEDIA_SHA256=PASS; 4 assets complete')
+          PY
+      - name: Verify public scope and personal data rules
+        shell: bash
+        run: |
+          python3 scripts/sanitize/scan_sensitive.py .
+          python3 tests/test_public_release_scope.py
+          python3 tests/test_no_personal_prompt_residue.py
+      - name: Publish verified media
+        shell: bash
+        run: |
+          git -c user.name='H3 Showcase Publisher' -c user.email=unset add -A assets/showcase
+          git -c user.name='H3 Showcase Publisher' -c user.email=unset commit -m 'docs: materialize SHA256-verified showcase MP4 and GIF'
+          git push origin HEAD:main

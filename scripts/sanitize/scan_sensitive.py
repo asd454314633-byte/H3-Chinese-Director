@@ -6,7 +6,7 @@
   python scripts/sanitize/scan_sensitive.py [repo_root]
 退出码 0 = PASS（零命中），1 = FAIL
 """
-import os, sys, re
+import os, sys, re, hashlib
 
 # 盘符路径正则（与本仓库发布工程所用清洗规则一致，四条并用）：
 #  DRIVE_RE / DRIVE_RE_ESC —— 大写盘符。反向预查排除 "https://" 的 "s://"、
@@ -34,7 +34,14 @@ URL_TAIL = re.compile(r"(?i)(https?|ftp|file|data|mailto|wss?|blob|chrome[-\w]*|
                       r"resource|view[-\w]*|about|ws)$")
 MEDIA_RE = re.compile(r"(?i)(?<![/\\:])[\w\u4e00-\u9fff\-]{2,140}\."
                       r"(png|jpe?g|webp|gif|bmp|mp4|mov|avi|mkv|webm|wav|mp3|flac|ogg|m4a)\b")
+SHOWCASE_MEDIA_SHA256 = {
+    'assets/showcase/h3-six-segment-demo-github.mp4': 'da7039a18f7c7afa15fcf96876d64fa874c6be6993c23829a7b245fdd42ae37b',
+    'assets/showcase/showcase-cover.jpg': 'bc6e3dd8e1db888e562a1cb0827f6bb52e5b1dbd492c36b62a941fd9195601d9',
+    'assets/showcase/six-segment-panel-redacted.png': '19ba3f40fa328d5848e02cf5d34264544c87b2a06052d7e61accf67f6d5c015c',
+    'assets/showcase/demo-preview.gif': '6322bcfb9364d02e2ba9582a478994ed540abd6e8fd40a080d5a33b3b2a15c8a',
+}
 MEDIA_ALLOW = {"__H3_GUIDE_NOT_SET__.png", "example.png", "example.jpg"}
+MEDIA_ALLOW.update(os.path.basename(p) for p in SHOWCASE_MEDIA_SHA256)
 EMAIL_RE = re.compile(r"(?<![\w.\-])[A-Za-z0-9._%+\-]+@[A-Za-z0-9.\-]+\.[A-Za-z]{2,24}(?![\w.\-])")
 PHONE_RE = re.compile(r"(?<!\d)1[3-9]\d{9}(?!\d)")
 GH_TOKEN_RE = re.compile(r"\b(ghp|gho|ghu|ghs|ghr|github_pat)_[A-Za-z0-9_]{20,}\b")
@@ -132,6 +139,12 @@ def main():
                 # 无扩展名（LICENSE/README 类）不算未知二进制
                 continue
             if ext not in TEXT_EXT:
+                if rel in SHOWCASE_MEDIA_SHA256:
+                    with open(fp, "rb") as public_asset:
+                        actual_sha = hashlib.sha256(public_asset.read()).hexdigest()
+                    if actual_sha != SHOWCASE_MEDIA_SHA256[rel]:
+                        hits.append((rel, "public_showcase_sha_mismatch", actual_sha))
+                    continue
                 hits.append((rel, "unknown_binary_ext", ext))
                 continue
             try:

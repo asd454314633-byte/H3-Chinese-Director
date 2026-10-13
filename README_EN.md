@@ -4,6 +4,25 @@
 
 **中文说明：** [H3 中文导演台](README.md) · [Latest published release: v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
+## Recorded showcase: video output and six-segment editor
+
+This recorded example illustrates visual output and the six-segment prompt editor/video previews shown near the end. Private prompt contents are redacted in the public assets.
+
+[![H3 Chinese Director showcase cover](assets/showcase/showcase-cover.jpg)](assets/showcase/h3-six-segment-demo-github.mp4)
+
+**[▶ Watch the 55-second MP4 demonstration (with audio)](assets/showcase/h3-six-segment-demo-github.mp4)**
+
+![Six-segment prompt/video panel with redacted prompt text](assets/showcase/six-segment-panel-redacted.png)
+
+<details>
+<summary>Animated preview (muted)</summary>
+
+![Animated preview of H3 video output](assets/showcase/demo-preview.gif)
+
+</details>
+
+> **Evidence scope:** The recording illustrates visual output and six-segment editor/preview layout. It does not independently prove 8197 frozen-production provenance, generation receipts for all six segments, AV-latent continuation, automatic merging or GPU performance; use separate acceptance records for those claims.
+
 ### Project at a glance
 
 - **Get the workflow:** [single frozen V29 JSON](workflows/current/V29_chinese_director_production_8197.json) · [release downloads](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
@@ -106,8 +125,8 @@ Both installers are **offline by default** and `--verify` only checks. **Their d
 
 ## Privacy & sanitisation
 
-Every file here is a `SANITIZED_PUBLIC_COPY`. Sanitisation is **content-level** — not renaming, not
-a `.gitignore`, not deleting one image. Removed: all user images/video/audio/reference assets and
+Workflow, source and configuration files are `SANITIZED_PUBLIC_COPY`; explicitly authorized, privacy-redacted media in `assets/showcase/` are exceptions. Sanitisation is **content-level** — not renaming, not
+a `.gitignore`, not deleting one image. Removed (except four authorized, redacted assets in `assets/showcase/`): all other user images/video/audio/reference assets and
 their filenames, base64/data-URI blobs, thumbnails and preview caches; all personal creative prompts
 (six-segment stories, character settings, dialogue, positive/negative prompts, continuation caches,
 test inputs); all machine-specific paths and identities; all secrets and credentials; all user
