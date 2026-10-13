@@ -6,22 +6,19 @@
 
 ## Recorded showcase: video output and six-segment editor
 
-This recorded example illustrates visual output and the six-segment prompt editor/video previews shown near the end. Private prompt contents are redacted in the public assets.
+The animated preview below **plays directly on the repository homepage** (muted GIF); there is no need to open a GitHub MP4 blob preview page.
 
-[![H3 Chinese Director showcase cover](assets/showcase/showcase-cover.jpg)](assets/showcase/h3-six-segment-demo-github.mp4)
+![H3 video result — animated preview](assets/showcase/demo-preview.gif)
 
-**[▶ Watch the 55-second MP4 demonstration (with audio)](assets/showcase/h3-six-segment-demo-github.mp4)**
+**[▶ Open the full 55.7-second MP4 with audio](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)** · [Static cover](assets/showcase/showcase-cover.jpg)
 
-![Six-segment prompt/video panel with redacted prompt text](assets/showcase/six-segment-panel-redacted.png)
+> This links directly to the raw MP4. Depending on the browser it may play inline or download; open the downloaded MP4 with a media player. GitHub's `blob/...mp4` page may be unable to preview the file.
 
-<details>
-<summary>Animated preview (muted)</summary>
+### Six-segment prompt editor and video previews
 
-![Animated preview of H3 video output](assets/showcase/demo-preview.gif)
+![Six-segment prompt/video panel with private text redacted](assets/showcase/six-segment-panel-redacted.png)
 
-</details>
-
-> **Evidence scope:** The recording illustrates visual output and six-segment editor/preview layout. It does not independently prove 8197 frozen-production provenance, generation receipts for all six segments, AV-latent continuation, automatic merging or GPU performance; use separate acceptance records for those claims.
+> **Evidence scope:** The recording illustrates visual output and editor/preview layout, but does not independently substantiate 8197 frozen-production provenance, all six generation receipts, AV-latent continuation, automatic merging, or GPU performance.
 
 ### Project at a glance
 

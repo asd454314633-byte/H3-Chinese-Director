@@ -6,22 +6,19 @@
 
 ## 实录演示：视频效果与六段剧情控制界面
 
-本演示取自一条实际录屏，展示人物视频效果，以及录屏尾部的**六段提示词编辑界面与六段视频预览**。发布的画面已对私人提示词作脱敏处理。
+下面是从真实录屏制作的无声动态预览。**进入仓库主页即可看到画面运动**，无需进入 GitHub 的 MP4 文件页面。
 
-[![H3 中文导演台视频展示封面](assets/showcase/showcase-cover.jpg)](assets/showcase/h3-six-segment-demo-github.mp4)
+![H3 视频效果动态预览（GIF）](assets/showcase/demo-preview.gif)
 
-**[▶ 查看 55 秒演示视频（MP4，含音频）](assets/showcase/h3-six-segment-demo-github.mp4)**
+**[▶ 打开完整 55.7 秒演示视频（MP4，含音频）](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)** · [查看静态封面](assets/showcase/showcase-cover.jpg)
+
+> 视频使用 GitHub 原始文件直链打开。部分浏览器会直接播放，部分浏览器会下载文件；如果下载，双击 MP4 即可播放。请勿点击仓库的 `blob/...mp4` 页面，该页面可能提示视频过大，不能预览。
+
+### 六段提示词编辑与视频预览界面
 
 ![六段提示词与视频预览面板（提示词已脱敏）](assets/showcase/six-segment-panel-redacted.png)
 
-<details>
-<summary>动态预览（无声）</summary>
-
-![H3 视频效果动态预览](assets/showcase/demo-preview.gif)
-
-</details>
-
-> **证据边界：** 录屏能够展示画面效果与六段编辑/预览界面的外观，但无法单独证明它来自 8197 冻结生产基线，也不能独立证明完整六段生成回执、AV Latent 接续、自动合并或性能数据；此类技术结论仍以独立验收证据为准。
+> **证据边界：** 本视频展示画面效果与六段编辑/预览界面的外观，但不能单凭录屏证明 8197 冻结生产基线来源、完整生成回执、AV Latent 接续、自动合并或性能数据。这些技术结论仍以独立验收记录为准。
 
 ### 快速查看
 
