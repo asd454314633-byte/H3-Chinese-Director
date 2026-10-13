@@ -1,0 +1,98 @@
+V29.4 离线验收  PASS=33 FAIL=0 HOLD=2
+
+[PASS] A 候选文件清单与逐文件差异复核
+      改动/新增 40 项；删除 3 项；清单已写 docs/acceptance/candidate_file_manifest.csv
+      evidence: {"modified": 24, "deleted": ["D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/SKILL.md", "D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/base-en.txt", "D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/ref-en.txt"]}
+[PASS] B1 Python 语法（121 个文件）
+      全部通过
+[PASS] B2 JS/CJS 语法（25 个文件）
+      全部通过
+[PASS] B3 JSON 语法（10 个文件）
+      全部通过
+[PASS] B4 PowerShell 语法（2 个文件）
+      全部通过
+[PASS] C1 公开包不含 vendor/ 目录
+      无 vendor/
+[PASS] C2 v28_h3_format 可导入 + 缺失时明确报错
+      导入 OK；未配置时抛 H3OfficialGuideMissing
+[PASS] C3 H3AudioRefine 缺失时抛可诊断异常（含上游/许可/commit/命令）
+      STATE MISSING | TRIED 1 | RAISED H3AudioRefineMissing True
+[PASS] C4-minimax 安装器可执行：install_minimax_official_skill.py
+      退出码 0
+[PASS] C4-audio 安装器可执行：install_h3_audio_refine.py
+      退出码 0
+[PASS] C5 自研包内相对导入可解析
+      全部解析成功
+[PASS] D1 敏感信息扫描（路径/UNC/IP/凭据）
+      未发现
+      evidence: {}
+[HOLD] D2 语义位置占位符（AST 定位，登记为 HOLD，不计入 PASS）
+      仓库检查器报告 -1 处语义占位符；本轮不作为 PASS 依据
+      evidence: SEMANTIC 语义位置占位符：45 处 -> HOLD（内容被脱敏移除，公开包不可重建）
+[HOLD] D3 冻结工作流内占位符（禁止改 JSON，仅登记）
+      共 11 处，其中 8 处位于节点 widgets_values（LoadImageCrop 参考图槽），加载会失败；按任务书第四节不得修改该 JSON，故登记为 HOLD 并在 REMAINING_HOLD.md 说明
+      evidence: [["<REDACTED_MEDIA>", "$/nodes[48]/widgets_values[0]", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[48]/widgets_values_named/image", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[49]/widgets_values[0]", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[49]/widgets_values_named/image", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[50]/widgets_val
+[PASS] E-test_public_release_scope test_public_release_scope.py（发布范围契约）
+      PUBLIC_RELEASE_SCOPE = PASS
+[PASS] E-test_workflow_structure test_workflow_structure.py（工作流结构）
+      结果：13 通过 / 0 失败 —— STRUCTURAL_REGRESSION=PASS
+[PASS] E-test_no_personal_prompt_residue test_no_personal_prompt_residue.py（私人提示词残留）
+      PASS: 全树 187 个文本文件（10 个工程文档走文件级白名单）无个人创作提示词残留，且尺子经植入样本自证有效 —— PERSONAL_PROMPT_RESIDUE=0
+[PASS] E-test_gate_repair test_gate_repair.py（门禁修复（含故意失败））
+      OK
+[PASS] F1 唯一工作流 Git blob SHA1 不变
+      aadee988ad2cce4d946e9054643a72f4d0e41d6b == aadee988ad2cce4d946e9054643a72f4d0e41d6b
+[PASS] F2 唯一工作流字节 SHA256 不变（LF 归一化后比对）
+      LF 归一化 311609b1e03316e7… 一致；原始字节 b11a96984f1ee621…（工作树为 LF）
+[PASS] F3 工作流结构 181 节点 / 218 连线 / 2 子图
+      实测 181/218/2
+[PASS] F4 SDPose 官方蓝图复核
+      SDPOSE_BLUEPRINT=PASS
+      evidence: localized_name
+      node [1].inputs[1].link
+      node [1].inputs[1].localized_name
+      node [1].inputs[1].name
+      node [1].inputs[1].type
+      ... 其余 68 处见 JSON 输出
+      link [0].origin_id
+      link [15].origin_id
+      link [1].origin_id
+      link [20].target_id
+      link [25].target_id
+      link [2].origin_id
+      link [5].target_id
+      link [5].target_slot
+
+SDPOSE_BLUEPRINT=PASS
+
+[PASS] G1 路径未配置时明确失败（不静默降级、不落盘）
+      PATHS_CONFIGURED False | REFUSED H3PathConfigError | DIRS_REFUSED H3PathConfigError
+[PASS] G2 反污染监控未配置时拒绝（旧版会静默塌缩为占位符）
+      WATCH_REFUSED H3AuditWatchConfigError
+[PASS] G3 H3_MemoryPolicy 门禁（未配置→CONFIG_MISSING；正控制→APPLIED）
+      复用 tests/test_gate_repair 用例，Ran 4 test(s)，rc=0
+[PASS] G4 8207 线脚本未配置时明确失败（旧版占位路径恒不存在）
+      task_root REFUSED True | python_exe REFUSED True | production_workflow REFUSED True | ui_freeze_json REFUSED True
+[PASS] G5 JS 正则/字符类内无脱敏占位符残留
+      无残留
+[PASS] H1 MiniMax 安装器 --verify 不写回仓库
+      仓库无新增/改动
+      evidence: rc=2 out=MINIMAX_OFFICIAL_SKILL = INCOMPLETE (0/3 files verified)
+FAIL     MISSING  SKILL.md
+FAIL     MISSING  references/base-en.txt
+FAIL     MISSING  references/ref-en.txt
+[PASS] H2 AudioRefine 安装器 --verify 不写回仓库
+      仓库无新增/改动
+      evidence: rc=2 out=FAIL     vendor/nodes.py 缺失：C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_qkbnfdmk\audio\nodes.py
+[PASS] H3 全新临时目录可完成路径配置与目录建立（无真实私有路径）
+      PATHS_CONFIGURED True | PROJECT_DIR C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_qkbnfdmk | HAS_PLACEHOLDER False | DIRS_CREATED True
+[PASS] I1 文档必备口径串齐备
+      全部命中
+[PASS] I2 过宽/矛盾表述已清除
+      无残留
+[PASS] I3 nodes.csv 分类字母限定在 A/B/C/D/E
+      实际 ['A', 'B', 'C', 'D', 'E']
+[PASS] I4 声明随包分发的条目其路径真实存在
+      全部存在
+[PASS] I5 声明不随包的第三方原版在仓库内无源码目录
+      已检查 15 个原版第三方条目，仓库内无其源码目录

@@ -3,14 +3,38 @@
 
 Design rules baked into this module (all from verified project history):
   * No dependency is *added* to the 8197 interpreter. It is the shared
-    <REDACTED_LOCAL_PATH>/D
-    could break the frozen V27 baseline, so this package is stdlib-only with ONE
+    interpreter of the frozen V27 baseline, so this package is stdlib-only with ONE
     exception: `psutil`, which ComfyUI itself already requires and which is already
     present (7.2.2). Every psutil call site has a ctypes/win32 fallback, and
     v28_bonsai_runtime degrades if the import ever fails.
   * No new ComfyUI environment: everything lives under the 8197 root.
   * Atomic writes use a UNIQUE temp name per call. A fixed temp name is a known
     Windows failure mode (PermissionError [Errno 13] that never recovers).
+
+Path configuration (gate repair 2026-10-13, G-3)
+------------------------------------------------
+The published copy used to carry a literal placeholder as a real directory::
+
+    PROJECT_DIR = Path(r'<REDACTED_LOCAL_PATH>/D')
+
+That is not merely cosmetic: `ensure_dirs()` would happily `mkdir -p` a literal
+`<REDACTED_LOCAL_PATH>` tree next to the working directory, and every write
+would silently land in the wrong place. A placeholder may never be used as a
+path.
+
+The three roots now come from configuration only, and there is deliberately no
+default:
+
+    H3_COMFY_ROOT       the 8197 ComfyUI root            (required)
+    H3_V28_PROJECTS     the director projects root       (required)
+    H3_V28_PROJECT_DIR  the single project dir           (optional,
+                                                          defaults under PROJECTS_ROOT)
+
+When a root is unconfigured its constant holds an unmistakable sentinel
+(`<H3_PATH_UNCONFIGURED>`), and every function that touches the disk calls
+:func:`require_configured` first. Missing configuration therefore fails loudly
+with the exact variable names instead of creating directories under a
+placeholder.
 """
 from __future__ import annotations
 
@@ -21,8 +45,69 @@ import tempfile
 import time
 from pathlib import Path
 
+# --- path configuration ----------------------------------------------------
+
+
+class H3PathConfigError(RuntimeError):
+    """A required path root is not configured.
+
+    Raised instead of writing to a placeholder directory. The message names the
+    exact environment variables to set.
+    """
+
+
+#: Roots that must be supplied by configuration. There is intentionally no
+#: default: a wrong default is what turned this into a fake gate.
+REQUIRED_ENV = ("H3_COMFY_ROOT", "H3_V28_PROJECTS")
+OPTIONAL_ENV = ("H3_V28_PROJECT_DIR",)
+
+#: Sanitisation placeholders must never survive as a path component.
+PLACEHOLDER_MARKERS = ("<REDACTED", "REDACTED_LOCAL_PATH", "REDACTED_UNC_PATH",
+                       "<PLACEHOLDER", "SANITIZED_PUBLIC_COPY")
+
+_UNCONFIGURED_NAME = "<H3_PATH_UNCONFIGURED>"
+_UNCONFIGURED = Path(_UNCONFIGURED_NAME)
+
+
+def _env_path(name):
+    """Validate an env-supplied absolute path. ``None`` when unset."""
+    raw = os.environ.get(name, "").strip()
+    if not raw:
+        return None
+    for marker in PLACEHOLDER_MARKERS:
+        if marker in raw:
+            raise H3PathConfigError(
+                "%s 的值含脱敏占位符 %r，不能作为真实目录：%r" % (name, marker, raw))
+    p = Path(raw)
+    if not p.is_absolute():
+        raise H3PathConfigError("%s 必须是绝对路径，当前=%r" % (name, raw))
+    return p
+
+
+def unconfigured_paths() -> list:
+    """Names of the root constants still holding the sentinel."""
+    bad = []
+    for key in ("COMFY_ROOT", "PROJECTS_ROOT", "PROJECT_DIR"):
+        val = globals().get(key)
+        if val is not None and _UNCONFIGURED_NAME in str(val):
+            bad.append(key)
+    return bad
+
+
+def require_configured() -> None:
+    """Fail loudly before any disk write when a root is unconfigured."""
+    bad = unconfigured_paths()
+    if bad:
+        raise H3PathConfigError(
+            "以下路径根未配置：%s。请先设置环境变量 %s（绝对路径），"
+            "再调用任何写盘接口。当前值：COMFY_ROOT=%r PROJECTS_ROOT=%r PROJECT_DIR=%r"
+            % (", ".join(bad), " / ".join(REQUIRED_ENV),
+               str(globals().get("COMFY_ROOT")), str(globals().get("PROJECTS_ROOT")),
+               str(globals().get("PROJECT_DIR"))))
+
+
 # --- the one and only ComfyUI root (8197) --------------------------------
-COMFY_ROOT = Path(os.environ.get("H3_COMFY_ROOT", r"<REDACTED_LOCAL_PATH>/D"))
+COMFY_ROOT = _env_path("H3_COMFY_ROOT") or _UNCONFIGURED
 DIRECTOR_RUNTIME_ROOT = COMFY_ROOT / "director_runtime"
 DIRECTOR_STATE_ROOT = DIRECTOR_RUNTIME_ROOT / "director_common"
 DIRECTOR_LOGS_DIR = DIRECTOR_STATE_ROOT / "logs"
@@ -42,8 +127,7 @@ MC_CLIP_TEMPLATE = "clip_%05d.safetensors"
 V28_PKG_DIR = COMFY_ROOT / "custom_nodes" / "H3_V28_Director"
 
 # Project state deliberately lives OUTSIDE the workflow JSON (task section 28)
-PROJECTS_ROOT = Path(os.environ.get(
-    "H3_V28_PROJECTS", r"<REDACTED_LOCAL_PATH>/D"))
+PROJECTS_ROOT = _env_path("H3_V28_PROJECTS") or (_UNCONFIGURED / "V28_PROJECTS")
 
 # Frozen V27 identity, recomputed at P0 (see V28_V27_FREEZE_RECORD.txt)
 V27_CANONICAL_NAME = "MiniMax_H3_全中文导演台_v027_CONTINUATION_DEV.json"
@@ -51,7 +135,14 @@ V27_SHA256 = "bbc6a26d7b6cebcf4863f94dfc011b58e037aecc6917c10de1cf4b311f7aa88c"
 V27_NODE_COUNT = 172
 V27_LINK_COUNT = 216
 V28_DEV_NAME = "MiniMax_H3_全中文导演台_v028_DIRECTOR_DEV.json"
-PROJECT_DIR = Path(r"<REDACTED_LOCAL_PATH>/D")
+PROJECT_DIR = (_env_path("H3_V28_PROJECT_DIR")
+               or (PROJECTS_ROOT.parent if PROJECTS_ROOT is not _UNCONFIGURED
+                   else _UNCONFIGURED / "director_projects"))
+
+#: Import-time report of the configuration state (informational; the runtime
+#: check is :func:`require_configured`, which re-reads the current constants so
+#: that test isolation counting as "configured" is intentional and visible).
+PATHS_CONFIGURED = not unconfigured_paths()
 
 MOTION_CONTEXT_PACK_VERSION = "0.6.2"
 # V27 has no such field; V28 defines it as pack version + slot naming contract.
@@ -100,6 +191,12 @@ def frames_to_seconds(frames: int) -> float:
 
 
 def ensure_dirs() -> None:
+    """Create every runtime directory.
+
+    Refuses to run on an unconfigured root: the previous published copy would
+    have created a literal placeholder directory tree instead (G-3).
+    """
+    require_configured()
     for p in (DIRECTOR_LOGS_DIR, DIRECTOR_CACHE_DIR, BONSAI_RUNTIME_DIR,
               BONSAI_MODELS_DIR, BONSAI_SCRIPTS_DIR, BONSAI_LOGS_DIR,
               BONSAI_CACHE_DIR, PROJECTS_ROOT):
@@ -108,6 +205,7 @@ def ensure_dirs() -> None:
 
 def atomic_write_json(path: Path, payload: object) -> None:
     """tmp -> flush -> fsync -> close -> rename. Never overwrite the only copy."""
+    require_configured()
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))
@@ -138,6 +236,7 @@ def atomic_write_text(path: Path, text: str) -> None:
 
 
 def atomic_write_json_raw(path: Path, text: str) -> None:
+    require_configured()
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp = tempfile.mkstemp(prefix=f".{path.name}.", suffix=".tmp", dir=str(path.parent))

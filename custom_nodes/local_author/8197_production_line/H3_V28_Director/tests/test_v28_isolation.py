@@ -34,8 +34,17 @@ from test_v28_state_machine import StateMachineCase                        # noq
 AUDITED = B.MODULES + ("v28_orchestrator", "v28_routes", "v28_gemma_provider")
 
 # The two production locations a leak shows up in first.
-REAL_PROJECTS_ROOT = pathlib.Path(r"<REDACTED_LOCAL_PATH>/D")
-REAL_MC_DIR = pathlib.Path(r"<REDACTED_LOCAL_PATH>/D")
+# G-2 repair (2026-10-13): these used to be two identical placeholder literals,
+# so `snapshot()` returned ("<ABSENT>",) for both and the before/after assert
+# could never fail. They are now read from the same configuration knob the
+# bootstrap uses; unconfigured -> the test reports HOLD instead of a fake pass.
+def _watched_roots():
+    """(projects_root, motion_context_dir) from H3_V28_AUDIT_WATCH_PATHS."""
+    try:
+        paths = B.watched_paths()
+    except B.H3AuditWatchConfigError:
+        return None
+    return pathlib.Path(paths[0]), pathlib.Path(paths[1])
 
 # Built by concatenation on purpose: written as one literal, the second pattern
 # would match the line that defines it and the scanner would report its own
@@ -192,6 +201,10 @@ class TestProductionTreesUntouched(StateMachineCase):
     """Before/after fingerprints of the two directories that got hit before."""
 
     def test_real_project_root_is_unchanged_by_a_full_lifecycle(self):
+        roots = _watched_roots()
+        if roots is None:
+            self.skipTest("HOLD — %s 未配置，无法比对真实项目库" % B.ENV_WATCH_PATHS)
+        REAL_PROJECTS_ROOT = roots[0]
         before = snapshot(REAL_PROJECTS_ROOT)
         self.set_plan(2)
         self.generate(expect_seg=1)
@@ -200,6 +213,10 @@ class TestProductionTreesUntouched(StateMachineCase):
                          "a test wrote into the real V28_PROJECTS root")
 
     def test_real_motion_context_slot_dir_is_unchanged(self):
+        roots = _watched_roots()
+        if roots is None:
+            self.skipTest("HOLD — %s 未配置，无法比对真实 h3_context 槽位目录" % B.ENV_WATCH_PATHS)
+        REAL_MC_DIR = roots[1]
         before = snapshot(REAL_MC_DIR)
         self.set_plan(2)
         self.generate(expect_seg=1)

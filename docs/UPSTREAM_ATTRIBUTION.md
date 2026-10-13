@@ -25,13 +25,20 @@
 | ComfyUI-MAINodes | <https://github.com/matlowai/ComfyUI-MAINodes> | matlowai | 自定义 LICENSE（GitHub API SPDX 探测为 NOASSERTION），以仓库内 LICENSE 文本为准 | 否 |
 | ComfyUI-Ref2VA-VSA | <https://github.com/Kablex/ComfyUI-Ref2VA-VSA> | Kablex | 自定义 LICENSE（本地记录为 Apache-2.0 文本；GitHub API SPDX 探测为 NOASSERTION），以仓库内 LICENSE 文本为准 | 否 |
 | ComfyUI-MiniMax-H3-PDD-Acc | <https://github.com/Jalen-Brunson/ComfyUI-MiniMax-H3-PDD-Acc> | Jalen-Brunson | Apache-2.0（经 GitHub API 核实 2026-10-12） | 否（本地作者仅在其机制之上做生命周期二次开发，见下） |
-
-> **GPL-3.0 说明（ComfyUI-KJNodes 与 ComfyUI 宿主）**：两者均为 GPL-3.0。本仓库**不分发**它们的源码，仅以"引用安装"方式使用，不触发 GPL 分发义务；若您修改其源码并对外分发，须遵循 GPL-3.0。
 | ComfyUI-H3-Motion-Context | <https://github.com/NikoDemon80/ComfyUI-H3-Motion-Context> | NikoDemon80 | 见上游 LICENSE | 否 |
-| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | 见上游 LICENSE | 否 |
+| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | **`LICENSE_HOLD`** —— 上游仓库**未附带可被 SPDX 识别的 LICENSE 文件**（仅 `native/LICENSE` 为 Apache-2.0 文本片段，不能代表整包许可）；不做无依据法律定论 | 否 |
 | comfyui-obvpm | <https://github.com/obvpm/comfyui-obvpm> | obvpm | 见上游 LICENSE | 否 |
 | anthropic-claude | <https://github.com/alexmunteanu/comfyui-anthropic-claude> | alexmunteanu | 见上游 LICENSE | 否（仅提示词辅助，非生产必需） |
 | comfyui_claude_prompt_generator | <https://github.com/PauldeLavallaz/comfyui_claude_prompt_generator> | PauldeLavallaz | 见上游 LICENSE | 否（非生产必需） |
+| **ComfyUI-H3-AudioRefine（外部依赖，不随包）** | <https://github.com/Adudeguyman/ComfyUI-H3-AudioRefine> | **Adudeguyman** | **MIT** © 2026 Adudeguyman（经 GitHub API 核实 2026-10-13） | 否（本仓库只提供包装层 `H3_AudioUpgrade`，上游采样器以外部依赖形式安装） |
+
+> **GPL-3.0 说明（ComfyUI-KJNodes 与 ComfyUI 宿主）**：两者均为 GPL-3.0。本仓库**不分发**它们的源码，仅以"引用安装"方式使用，不触发 GPL 分发义务；若您修改其源码并对外分发，须遵循 GPL-3.0。
+>
+> **GPL 不自动延伸**：ComfyUI 宿主是 GPL-3.0，但这**不**意味着所有与 ComfyUI 相关的仓库都被 GPL 覆盖。
+> 例如本仓库派生的 SDPose 蓝图来自独立仓库 `Comfy-Org/workflow_templates`（根 LICENSE = **MIT**），
+> 该仓库的许可以其自身 LICENSE 为准。判定许可时**按每个仓库自己的 LICENSE 文件**，不按宿主推导。
+
+> **obvpm 名称说明**：`comfyui-obvpm` 的仓库名/作者名在上游可能发生过改名。本表以**仓库 URL 与仓库内 LICENSE 文本**为归属依据，不以目录名为依据；若 URL 不可达，请以实际可达的仓库为准并回报。
 
 ### 8207 线额外引用（不在公开包内，仅登记归属）
 
@@ -44,7 +51,46 @@
 
 ### 来源不明（已排除，不发布源码）
 
-- `MiniMax-H3-Combined-Image-And-Reference-to-Video`：本机存在且带 GPL-3.0 文本，但无上游仓库地址与作者信息，溯源证据不足 → **不搬运源码**，仅登记为「第三方，来源待核」。
+- `MiniMax-H3-Combined-Image-And-Reference-to-Video`：本机存在且带 GPL-3.0 文本，但无上游仓库地址与作者信息，溯源证据不足 → **不搬运源码**，仅登记为「第三方，来源待核」。许可标记为 `LICENSE_HOLD`（本机仅残留 LICENSE 文本，未经权威源核实）。
+
+## 2b. MiniMax 官方 H3 提示词 Skill（第三方原版，已移除，改为外部依赖）
+
+| 项 | 值 |
+|---|---|
+| 上游仓库 | <https://github.com/MiniMax-AI/MiniMax-H3>，路径 `skills/h3-prompt-writing/` |
+| 涉及文件 | `SKILL.md`、`references/base-en.txt`、`references/ref-en.txt` |
+| 判定 | 与上游同名文件 blob（LF 归一化后）**逐字节相等** → 官方原版，**不是本项目自撰** |
+| 许可 | **`LICENSE_HOLD`**：GitHub API `license == null`；模型/Skill 走 Hugging Face *MiniMax Community License Agreement*（含地域与商业限制） |
+| 处理 | 已从公开包 `git rm`；`skills/official-minimax-h3-prompt/README.md` 保留来源、版本、blob SHA、比对证据 |
+| 运行时 | `v28_h3_format` 确实在运行时解析 `references/ref-en.txt`（六段标题/`TASK_TYPES`/`VISIBLE_MARKERS`/`AUDIO_MARKERS`）。用 `python scripts/setup/install_minimax_official_skill.py --source <副本>` 安装，或设 `H3_MINIMAX_OFFICIAL_SKILL_DIR`；缺失抛 `H3OfficialGuideMissing` |
+
+**未做**：未在未取得授权前自动下载、捆绑或重分发这三份官方原版文件。
+
+## 2c. SDPose 多人姿态蓝图（官方模板仓库，MIT —— 派生件）
+
+| 项 | 值 |
+|---|---|
+| 上游仓库 | <https://github.com/Comfy-Org/workflow_templates>（仓库根 LICENSE = **MIT**） |
+| 提交 | `cdccb2ee7a7cd0baee4630cf7186283a98ab408f` |
+| 蓝图路径 | `blueprints/video_to_pose_map_sdpose_multi_person.json` |
+| Blob / 大小 / SHA256 | `6f6d7ab146a5b143f70bc98d444a7a64829a94ea` / `33268` / `92e31fb99f4a005a9263c296429c99eb0847567d64b1f3a35fa42839e0cbfec2` |
+| 在本仓库的位置 | 唯一工作流 `definitions.subgraphs[1]` |
+| 归属类型 | **E —— 派生件，不是完全原创** |
+| 全等部分 | inputs 15/15、outputs 5/5、节点 7/7、连线 28/28 |
+| 本项目修改 | 80 处节点叶子 + 10 处连线叶子（含 id/name 改写） |
+| 复核脚本 | `python scripts/verify/verify_sdpose_blueprint.py`（打印 `SDPOSE_BLUEPRINT=PASS`） |
+| 钉住副本 | `docs/evidence/sdpose_blueprint_pinned.json` |
+
+官方文件是 workflow wrapper（顶层 1 个占位节点），蓝图本体在 `definitions.subgraphs[0]` —— 直接比对顶层会把结果误判为 FAIL。
+
+## 2d. ComfyUI 内置节点（引用其运行时与节点类型名）
+
+本仓库的工作流与 8 个自研模块引用 ComfyUI 内置 / `comfy_extras` 节点，**不搬运其源码**：
+
+- 工作流内节点类型：`PreviewImage`、`LTXVSeparateAVLatent`、`LTXVConcatAVLatent`、`H3SixDirectorState` 等
+- 自研模块 import / 覆写的符号：`comfy_extras.nodes_minimax_h3.MiniMaxH3ReferenceToVideo`、`MiniMaxH3AddGuide`、`_resize`、`CANVAS_MULTIPLE`；`comfy_extras.nodes_custom_sampler.BasicScheduler`；`comfy_extras.nodes_audio.LoadAudio`；`comfy_extras.nodes_resolution.ResolutionSelector`；`comfy_extras.nodes_math.MathExpressionNode`
+
+这些属于**运行时耦合 / 版本依赖**，不构成对其源码的复制或派生；逐项耦合对象与失效表现见 `AUTHOR_CONTRIBUTIONS.md` §14。
 
 ## 3. 与本地作者代码的依赖关系
 

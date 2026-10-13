@@ -1,6 +1,9 @@
 # SANITIZED_PUBLIC_COPY — 本文件由私有原件经内容级脱敏生成：已移除个人素材/媒体、个人创作提示词、本机绝对路径、身份与凭据、运行状态；历史结论、日期、耗时与验收结果未作任何篡改。
 import pathlib,json,hashlib,shutil,datetime,urllib.request
-T=pathlib.Path(__file__).parent;R=T/'runtime';P=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D')
+T=pathlib.Path(__file__).parent
+import sys; sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from h3_8207_paths import task_root as _h3_task_root, python_exe as _h3_python_exe
+R=T/'runtime';P=_h3_task_root()
 def read(p):return json.loads(p.read_text(encoding='utf-8-sig'))
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def write(p,o):p.write_text(json.dumps(o,ensure_ascii=False,indent=2),encoding='utf-8')

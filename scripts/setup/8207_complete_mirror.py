@@ -1,6 +1,9 @@
 # SANITIZED_PUBLIC_COPY — 本文件由私有原件经内容级脱敏生成：已移除个人素材/媒体、个人创作提示词、本机绝对路径、身份与凭据、运行状态；历史结论、日期、耗时与验收结果未作任何篡改。
 import pathlib,json,hashlib,shutil
-T=pathlib.Path(__file__).parent;P=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D');R=T/'runtime'
+T=pathlib.Path(__file__).parent
+import sys; sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from h3_8207_paths import task_root as _h3_task_root, python_exe as _h3_python_exe
+P=_h3_task_root();R=T/'runtime'
 allowed={'custom_nodes','comfy','comfy_extras','comfy_api','comfy_api_nodes','comfy_execution','comfy_config','api_server','app','blueprints','middleware','utils','alembic_db','director_runtime'}
 baseline=json.loads((T/'baseline/PRODUCTION_HASHES.json').read_text(encoding='utf-8'))
 added=[]

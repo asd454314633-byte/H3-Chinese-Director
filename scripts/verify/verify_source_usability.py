@@ -298,6 +298,50 @@ def check_pkg(root, fails):
     return len(pkgs), bad
 
 
+# --- 语义位置占位符（新增，2026-10-13）------------------------------------
+# `check_tokens` 的 BARE_TOKEN 只匹配「整行恰好是一个占位符」。它看不见这一类：
+#
+#     _AUDIO_RULES = "<REDACTED_USER_PROMPT>"
+#     raise DirectorError('<REDACTED_USER_PROMPT>')
+#
+# 这些字面量处在语义位置上 —— 整条规则 / 整条错误信息的内容被移除，代码照样能解析，
+# 所以旧的尺一律判「位于字面量内，非缺陷」。实际上这是**内容丢失**：拼进提示词时
+# 会把 "<REDACTED_USER_PROMPT>" 这个假 token 当成规则喂给模型，抛给用户时则是一个
+# 不可读的错误。
+#
+# 本函数按 AST 精确定位「整个字符串常量只由 <REDACTED_*> 组成」的位置并登记。
+# 它不改变既有 PASS/FAIL 判据（结果单独成册记为 HOLD，不并入 fails），因为这些内容
+# 属于私有提示词，公开仓库无权也不应重建。
+SEM_TOKEN = re.compile(r"^\s*(?:<REDACTED_[A-Z_]*>\s*)+\s*$")
+
+
+def check_semantic_placeholders(root):
+    """[(relpath, lineno, 目标名)] —— 整个字符串常量被占位符占据的位置。"""
+    hits = []
+    for dp, dn, fn in os.walk(root):
+        dn[:] = [d for d in dn if d not in SKIP_DIRS]
+        for f in sorted(fn):
+            if not f.endswith(".py"):
+                continue
+            p = os.path.join(dp, f)
+            try:
+                tree = ast.parse(read_text(p), filename=p)
+            except Exception:                       # 语法坏的文件由 check_py 判红
+                continue
+            names = {}
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Assign):
+                    for t in node.targets:
+                        if isinstance(t, ast.Name):
+                            names[id(node.value)] = t.id
+            for node in ast.walk(tree):
+                if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                    if SEM_TOKEN.match(node.value):
+                        hits.append((rel(root, p), getattr(node, "lineno", 0),
+                                     names.get(id(node), "<expr>")))
+    return hits
+
+
 def run(root):
     """跑全部六类，返回 counts/fails/notes/census/prose。供 CLI 与测试共用。"""
     root = os.path.abspath(root)
@@ -314,6 +358,8 @@ def run(root):
         root, fails, notes, json_failed | js_failed, ps)
     counts["TOKEN"] = (n_tok, b_tok)
     counts["PKG"] = check_pkg(root, fails)
+    # 独立成册：记为 HOLD，不并入 fails（既有 PASS/FAIL 判据未放宽也未加严）
+    counts["SEMANTIC"] = check_semantic_placeholders(root)
     return {"counts": counts, "fails": fails, "notes": notes,
             "census": census, "prose": prose}
 
@@ -332,6 +378,14 @@ def main(argv):
     inlit = sum(v for k, v in res["census"].items() if k != "(parse-covered-ok)")
     print("  裸占位符普查：%d 行（位于代码内字面量/docstring/散文中的有意披露，非缺陷）"
           % inlit)
+    semantic = counts.get("SEMANTIC", [])
+    if semantic:
+        print("  SEMANTIC 语义位置占位符：%d 处 -> HOLD（内容被脱敏移除，公开包不可重建）"
+              % len(semantic))
+        for r_rel, lineno, target in semantic[:20]:
+            print("      HOLD %s:%s  %s" % (r_rel, lineno, target))
+    else:
+        print("  SEMANTIC 语义位置占位符：0 处 -> OK")
     if res["prose"]:
         print("  散文/配置内占位行：%d 个文件（首个：%s）" % (
             len(res["prose"]), res["prose"][0][0]))
@@ -343,7 +397,7 @@ def main(argv):
             print("  - " + f)
         print("\nSOURCE_USABILITY=FAIL")
         return 1
-    skipped = [k for k, (_t, b) in counts.items() if b is None]
+    skipped = [k for k in CLASSES if counts.get(k, (0, None))[1] is None]
     print("\nSOURCE_USABILITY=PASS" + ("" if not skipped else
           "  (未覆盖项: %s —— 记为 SKIPPED 而非 PASS)" % ",".join(skipped)))
     return 0

@@ -35,11 +35,31 @@ EN_MARK = "===EN==="
 
 STATE_MARK = "===STATE==="   # 一次调用同时产出 candidate_state_delta（任务书第十一节）
 
+# --- redacted rule slots (2026-10-13) ----------------------------------------
+# 脱敏把本模块里属于「本机私有提示词正文」的若干规则整段移除，公开副本里这些槽位
+# 因此为空。它们**不可由本仓库重建**（重建等于伪造私有提示词），也不得让一个
+# 字面量 "<REDACTED_USER_PROMPT>" 被拼进真正发给模型的提示词里 —— 那会把一个假
+# token 当成规则喂给模型。这里把损失显式登记，调用方可用 redacted_rule_slots()
+# 判断规则是否完整，而不是静默拿到一份残缺的编译器。
+REDACTED_RULE_SLOTS = {
+    "_AUDIO_RULES": "整段规则被移除（含私有提示词正文）",
+    "_COMPILER_RULES": "整段规则被移除（含私有提示词正文）",
+    "_OUTPUT_RULES": "块内 2 行被移除（含私有提示词正文）",
+    "build_messages.dynamic": "末尾 1 条追加规则被移除（含私有提示词正文）",
+    "_zh_is_chinese.error_suffix": "错误提示中 1 句私有措辞被移除，已改为通用表述",
+}
+
+
+def redacted_rule_slots():
+    """Which rule slots lost content to sanitisation (empty == complete)."""
+    return dict(REDACTED_RULE_SLOTS)
+
+
 _SYSTEM_IDENTITY = "你是 MiniMax H3 (Ref2VA) 提示词编译器。继承全局设定与连续性账本，编译本段中英文提示词和结束状态。"
 
 _RESOURCE_RULES = "两稿只能引用输入明确声明的 <Picture N>/<Audio N>/<Video N>/<Subject N>；禁止新增未声明资源。"
 
-_AUDIO_RULES = "<REDACTED_USER_PROMPT>"
+_AUDIO_RULES = ""
 
 _OUTPUT_RULES = """本次仅编译一个短片段，不展开整部电影。最多2个镜头、6句新对白；不重复对白或段落。一次只返回合法 JSON：english_prompt、chinese_prompt、state_delta。不要代码围栏或解释。
 english_prompt 和 chinese_prompt 每稿必须包含以下六个独占行标题，顺序固定，不得遗漏：
@@ -50,14 +70,12 @@ detailed_description:
 overall_soundscape:
 non_diegetic_music:
 每个标题下面才是正文。detailed_description 必须写本段从当前状态开始的实际镜头、动作、结束位置及对白。
-<REDACTED_USER_PROMPT>
 global settings 的图片初始姿态只用于参考，current_end_state 是本段真实开始状态。
 guide 中的资源标签只是规则范例，不构成资源声明。只能使用 global settings、账本、本段delta中声明的标签。
 state_delta.end_state 必须反映本段动作完成后的状态，不得复制开始状态（例如照片已放桌上就不能仍持在手中）。
-<REDACTED_USER_PROMPT>
 open_threads 写尚可继续发展的方向。无需重列已解决问题。"""
 
-_COMPILER_RULES = '<REDACTED_USER_PROMPT>'
+_COMPILER_RULES = ""
 
 OUTPUT_SCHEMA = {
     "type": "object", "additionalProperties": False,
@@ -89,7 +107,6 @@ def build_messages(gset, guide, ledger, delta, head):
     allowed = sorted(_declared_resources(gset, json.dumps(ledger, ensure_ascii=False), delta))
     dynamic += "\n\n【本段用户delta】\n" + head + delta.strip()
     dynamic += "\n本次资源白名单（guide 示例标签不算声明）：" + "、".join(allowed)
-    dynamic += "<REDACTED_USER_PROMPT>"
     return [{"role": "system", "content": prefix}, {"role": "user", "content": dynamic}]
 
 def parse_model_output(raw):
@@ -306,7 +323,7 @@ def _zh_is_chinese(zh: str, en: str) -> tuple[bool, str]:
     if bad_secs:
         return False, ("以下段落没有真正本地化成中文：" + "、".join(bad_secs)
                        + f"（整篇汉字占比 {ratio:.0%}）。必须逐段用中文重写，"
-                         "<REDACTED_USER_PROMPT>")
+                         "不得保留英文原文或只做字面替换）")
     if ratio < _ZH_SECTION_MIN:
         return False, f"中文稿汉字占比过低（{ratio:.0%}），正文没有真正本地化成中文"
     if zh.strip() == en.strip():

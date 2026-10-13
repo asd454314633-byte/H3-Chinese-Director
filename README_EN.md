@@ -20,6 +20,21 @@ and run-receipt validation → VRAM/RAM lifecycle engineering* into one producti
 > [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md) and
 > [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 
+> ⚠️ **Originality boundary — do not read this as "100% original".** This repository **contains
+> third-party material and third-party derivatives**, and **two dependencies are NOT shipped and
+> must be installed by you**:
+> 1. The **SDPose multi-person pose subgraph** inside the single workflow is a **derivative** of the
+>    official blueprint from `Comfy-Org/workflow_templates` (MIT), pinned and with the local
+>    modifications itemised — **not** an original subgraph. See `THIRD_PARTY_NOTICES.md` §4.
+> 2. The **official MiniMax H3 prompt-writing Skill** files are **verbatim upstream originals**;
+>    their licence is unresolved (`LICENSE_HOLD`) and they have been **removed from this public
+>    package** — you must supply your own copy at runtime. See §External dependencies below.
+> 3. **ComfyUI-H3-AudioRefine** (Adudeguyman, MIT) is an **external dependency**; no `vendor/`
+>    directory is shipped. See §External dependencies below.
+>
+> This repository therefore does **not** claim that "all subgraphs are fully original" or that it
+> "contains no third-party content".
+
 ## What this repository is / is not
 
 - **Not** a model release: **no model weights are included** (no `.safetensors`, `.ckpt`, `.pt`,
@@ -63,6 +78,17 @@ tests → attribution type → verification status) is in
 6. Model-free tests: `python scripts/verify/verify_workflow_structure.py`,
    `python tests/test_workflow_structure.py`, `python tests/test_public_release_scope.py`
 
+### External dependencies (not shipped — you must install them)
+
+| Dependency | Upstream | Licence | Install | Behaviour when missing |
+|---|---|---|---|---|
+| Official MiniMax H3 prompt-writing Skill | `MiniMax-AI/MiniMax-H3` → `skills/h3-prompt-writing/` | **`LICENSE_HOLD`** (GitHub API `license == null`; HF MiniMax Community License Agreement with regional/commercial restrictions) | obtain your own copy, then `python scripts/setup/install_minimax_official_skill.py --source <copy>`, or set `H3_MINIMAX_OFFICIAL_SKILL_DIR=<copy>` | raises `H3OfficialGuideMissing` **only when the official guide is actually parsed** (message includes provenance, licence note and install command). `H3_V28_Director` still imports fine. |
+| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <copy>` (or `--allow-download --i-have-license-rights`) | raises `H3AudioRefineMissing` with upstream URL, licence, commit and `git clone` command. **No stub class, no silent skip.** |
+
+Both installers are **offline by default** (no automatic download) and `--verify` only checks.
+They install into a directory **outside** this repository, so no third-party original is written
+back into the package.
+
 > **8197 acceptance does not imply 8207 acceptance.** 8197 is the frozen production line; 8207 is an
 > independent runtime/experiment line kept in the author's local archive only — its sources are **not**
 > part of this public package. Only the 8197 workflow and the 8197 production-line sources are
@@ -99,8 +125,22 @@ unchanged.
 
 ## Licence
 
-- Author's original parts: **MIT License** ([`LICENSE`](LICENSE))
+- Author's original parts: **MIT License** ([`LICENSE`](LICENSE)). `LICENSE` enumerates exactly
+  what the grant covers.
+- **No MIT grant is made over any third-party original in this repository:**
+  - Official MiniMax H3 prompt-writing Skill → `LICENSE_HOLD`; removed from the public package,
+    used as an external dependency only.
+  - SDPose multi-person pose subgraph → shipped inside the single workflow, but it is a
+    **derivative** of `Comfy-Org/workflow_templates` (**MIT**) and is distributed under that
+    upstream MIT licence with a modification notice. It is **not** claimed as original.
+  - ComfyUI-H3-AudioRefine → upstream **MIT © 2026 Adudeguyman**, installed externally, keeping
+    its own notice and copyright.
+- The ComfyUI host is GPL-3.0, but GPL does **not** automatically extend to independent
+  third-party repositories such as the MIT-licensed `workflow_templates`. Importing, monkey-patching
+  or overriding the upstream runtime is **runtime coupling**, not copying or deriving its source.
 - Third-party dependencies and models: their own licences, listed in
-  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)
+  [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and `docs/UPSTREAM_ATTRIBUTION.md`.
+  Anything whose licence could not be verified from an authoritative source is marked
+  `LICENSE_HOLD` and **no legal conclusion is asserted** — see [`REMAINING_HOLD.md`](REMAINING_HOLD.md).
 - **No weights are shipped**; users download them under the upstream authors' licence, regional and
   commercial terms.

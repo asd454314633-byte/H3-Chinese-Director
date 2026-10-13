@@ -8,6 +8,12 @@
 > 本项目是**本地作者主导的原创工程**：从 V16 一路演进到 V29 的中文导演台体系、自研 ComfyUI 节点、前端控制层、缓存/回执安全机制与内存生命周期优化，均由本仓库作者设计、实现、调试与验收。
 > **MiniMax-H3 模型、ComfyUI 引擎、第三方 PDD/VSA/注意力优化节点不属于本作者原创**，其归属见 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md) 与 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
 
+> ⚠️ **原创性边界（不要读成"全部原创"）**：本仓库**含有第三方材料与第三方派生件**，且**有两项依赖不在包内、必须自行安装**：
+> 1. 唯一工作流里的 **SDPose 多人姿态子图**是 `Comfy-Org/workflow_templates`（MIT）官方 blueprint 的**派生子图**（不是完全原创），已钉版本并列明修改 → 见 `THIRD_PARTY_NOTICES.md` §4；
+> 2. **MiniMax 官方 H3 提示词 Skill** 三份文件是**官方原版**，许可未取得授权（`LICENSE_HOLD`），**已从公开包移除**，运行时需你自行提供副本 → 见 §3.1；
+> 3. **ComfyUI-H3-AudioRefine**（Adudeguyman, MIT）是**外部依赖**，公开包不含 `vendor/`，需另行安装 → 见 §3.1。
+> 因此本仓库不使用"所有子图完全原创""不包含任何第三方内容"这类表述。
+
 ---
 
 ## 一、这不是什么，是什么
@@ -42,6 +48,15 @@
 4. 安装本仓库自研节点：把 `custom_nodes/local_author/8197_production_line/*` 复制到你的 `ComfyUI/custom_nodes/`（公开包内只有这一条生产线）
 5. 导入**唯一**公开发布的工作流 `workflows/current/V29_chinese_director_production_8197.json`，只操作画布上的「H3 全中文傻瓜导演台」唯一入口
 6. 无需模型的离线测试：`python scripts/verify/verify_workflow_structure.py` 与 `python tests/test_workflow_structure.py`
+
+### 3.1 两项不在包内的依赖（不装会在用到时才明确报错，不会静默降级）
+
+| 依赖 | 上游 | 许可 | 安装方式 | 缺失时的表现 |
+|---|---|---|---|---|
+| MiniMax 官方 H3 提示词 Skill | `MiniMax-AI/MiniMax-H3` → `skills/h3-prompt-writing/` | **`LICENSE_HOLD`**（GitHub API `license == null`；HF MiniMax Community License Agreement，含地域/商业限制） | 自行获取官方副本后：`python scripts/setup/install_minimax_official_skill.py --source <副本目录>`，或设置环境变量 `H3_MINIMAX_OFFICIAL_SKILL_DIR=<副本目录>` | 只在**真正解析官方 guide 时**抛 `H3OfficialGuideMissing`（含来源/许可说明/安装命令）。`H3_V28_Director` 包本身可正常导入 |
+| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <副本目录>`（或 `--allow-download --i-have-license-rights` 从上游 clone） | 抛 `H3AudioRefineMissing`（含上游地址/许可/commit/`git clone` 命令）。**不返回桩实现、不静默跳过音频功能** |
+
+两个安装器都**默认不联网、不自动下载**；`--verify` 只做校验不写盘。安装目标在**包外**目录（不会把第三方原版文件写回本仓库）。
 
 > **8197 与 8207 的验收不互相代表**：8197 是冻结生产线的验收结果；8207 是作者本机的独立运行/实验线，其源码与验收档案**不在本公开包内**。本仓库**只发布 8197 冻结生产工作流与 8197 生产线源码**。详见 [`docs/INSTALL_WINDOWS_8207.md`](docs/INSTALL_WINDOWS_8207.md)。
 
@@ -84,9 +99,16 @@ manifests/nodes.csv     自研/第三方节点归属与许可台账
 
 ## 七、许可
 
-- 本仓库作者原创部分：**MIT License**（见 [`LICENSE`](LICENSE)）
-- 第三方依赖与模型：各自许可见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 与 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md)
-- 本仓库**不含**模型权重，用户需自行按模型原作者的许可与地域/商业限制下载
+- 本仓库作者原创部分：**MIT License**（见 [`LICENSE`](LICENSE)）。MIT 的覆盖范围在 `LICENSE` 中逐条列出。
+- **不**对本仓库里的任何第三方原版文件授 MIT：
+  - MiniMax 官方 H3 提示词 Skill → `LICENSE_HOLD`，已从公开包移除、改为外部依赖；
+  - SDPose 多人姿态子图 → 随唯一工作流分发，但它是 `Comfy-Org/workflow_templates`（**MIT**）的**派生件**，按上游 MIT 附带修改声明，**不宣称完全原创**；
+  - ComfyUI-H3-AudioRefine → 上游 MIT © 2026 Adudeguyman，外部安装，保留其自有署名与许可。
+- ComfyUI 宿主是 GPL-3.0，但 GPL **不自动延伸**到独立的第三方仓库（如上述 MIT 的 `workflow_templates`）。
+  本项目对上游运行时的 import / monkey-patch / 覆写属于**运行时耦合**，不构成对其源码的复制或派生。
+- 第三方依赖与模型：各自许可见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 与 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md)。
+  未查实许可的项目一律标 `LICENSE_HOLD`，**不做无依据的法律定论**，清单见 [`REMAINING_HOLD.md`](REMAINING_HOLD.md)。
+- 本仓库**不含**模型权重，用户需自行按模型原作者的许可与地域/商业限制下载。
 
 ## 八、状态
 
