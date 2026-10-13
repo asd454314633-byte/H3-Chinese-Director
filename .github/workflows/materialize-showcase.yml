@@ -1,4 +1,5 @@
 name: Materialize verified showcase media
+# Re-run after precise basename-token privacy fix
 # Re-run after exact-basename privacy scanner repair
 on:
   push:
