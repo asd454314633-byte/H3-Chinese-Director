@@ -42,6 +42,8 @@
 
 ## 三、快速开始
 
+> **当前公开版本：** [v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)。安装前请检查官方依赖许可；仅发布 8197 生产线的公开副本，**不会更改作者本机冻结生产环境**。
+
 1. 安装 ComfyUI（官方版）与 Python/PyTorch/CUDA 环境 → [`docs/INSTALL_WINDOWS_8207.md`](docs/INSTALL_WINDOWS_8207.md)
 2. 按 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md) 安装所需第三方自定义节点（精确到仓库与版本）
 3. 按 [`docs/MODELS.md`](docs/MODELS.md) 自行下载模型权重到对应目录
@@ -54,9 +56,9 @@
 | 依赖 | 上游 | 许可 | 安装方式 | 缺失时的表现 |
 |---|---|---|---|---|
 | MiniMax 官方 H3 提示词 Skill | `MiniMax-AI/MiniMax-H3` → `skills/h3-prompt-writing/` | **`LICENSE_HOLD`**（GitHub API `license == null`；HF MiniMax Community License Agreement，含地域/商业限制） | 自行获取官方副本后：`python scripts/setup/install_minimax_official_skill.py --source <副本目录>`，或设置环境变量 `H3_MINIMAX_OFFICIAL_SKILL_DIR=<副本目录>` | 只在**真正解析官方 guide 时**抛 `H3OfficialGuideMissing`（含来源/许可说明/安装命令）。`H3_V28_Director` 包本身可正常导入 |
-| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <副本目录>`（或 `--allow-download --i-have-license-rights` 从上游 clone） | 抛 `H3AudioRefineMissing`（含上游地址/许可/commit/`git clone` 命令）。**不返回桩实现、不静默跳过音频功能** |
+| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <副本目录>`（安装器只支持 `--source` 与 `--dest`，不支持自动下载） | 抛 `H3AudioRefineMissing`（含上游地址/许可/commit/`git clone` 命令）。**不返回桩实现、不静默跳过音频功能** |
 
-两个安装器都**默认不联网、不自动下载**；`--verify` 只做校验不写盘。安装目标在**包外**目录（不会把第三方原版文件写回本仓库）。
+两个安装器都**默认不联网、不自动下载**；`--verify` 只做校验不写盘。**注意：默认安装目标在仓库副本内部**，不会自动进入你实际使用的 ComfyUI。若已把节点复制到 ComfyUI，请显式使用 `--dest` 指向实际节点目录（MiniMax：`ComfyUI/custom_nodes/H3_V28_Director/skills/official-minimax-h3-prompt`；AudioRefine：`ComfyUI/custom_nodes/H3_AudioUpgrade/vendor`），或按官方指南配置 `H3_MINIMAX_OFFICIAL_SKILL_DIR` / `H3_AUDIO_REFINE_DIR`。完整可执行示例见安装文档。
 
 > **8197 与 8207 的验收不互相代表**：8197 是冻结生产线的验收结果；8207 是作者本机的独立运行/实验线，其源码与验收档案**不在本公开包内**。本仓库**只发布 8197 冻结生产工作流与 8197 生产线源码**。详见 [`docs/INSTALL_WINDOWS_8207.md`](docs/INSTALL_WINDOWS_8207.md)。
 
@@ -107,7 +109,7 @@ manifests/nodes.csv     自研/第三方节点归属与许可台账
 - ComfyUI 宿主是 GPL-3.0，但 GPL **不自动延伸**到独立的第三方仓库（如上述 MIT 的 `workflow_templates`）。
   本项目对上游运行时的 import / monkey-patch / 覆写属于**运行时耦合**，不构成对其源码的复制或派生。
 - 第三方依赖与模型：各自许可见 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) 与 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md)。
-  未查实许可的项目一律标 `LICENSE_HOLD`，**不做无依据的法律定论**，清单见 [`REMAINING_HOLD.md`](REMAINING_HOLD.md)。
+  未查实许可的项目一律标 `LICENSE_HOLD`，**不做无依据的法律定论**，清单见 [`REMAINING_HOLD.md`](docs/acceptance/REMAINING_HOLD.md)。
 - 本仓库**不含**模型权重，用户需自行按模型原作者的许可与地域/商业限制下载。
 
 ## 八、状态

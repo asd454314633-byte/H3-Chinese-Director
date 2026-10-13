@@ -1,0 +1,16 @@
+# Repository-authoritative LF checkouts prevent Windows CRLF drift.
+# Keep all published source/workflow bytes stable across platforms.
+.gitattributes text eol=lf
+.gitignore text eol=lf
+*.py text eol=lf
+*.js text eol=lf
+*.cjs text eol=lf
+*.json text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.csv text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.ini text eol=lf
+*.ps1 text eol=lf
+LICENSE text eol=lf

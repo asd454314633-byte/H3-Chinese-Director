@@ -83,5 +83,5 @@ custom_nodes/.../H3_V28_Director/skills/official-minimax-h3-prompt/references/re
 ## 五、未改动声明
 
 - `workflows/current/V29_chinese_director_production_8197.json`：Blob `aadee988ad2cce4d946e9054643a72f4d0e41d6b`、SHA256（LF 归一化 `311609b1…`）均与基线一致；181 节点 / 218 连线 / 2 子图不变。
-- 冻结 8197 生产环境（`D:\ComfyUI\ComfyUI_H3_V27_Lab`）：只读核查，零修改、零重启。
+- 冻结 8197 生产环境（`<REDACTED_FROZEN_PRODUCTION_ROOT>`）：只读核查，零修改、零重启。
 - 本机私有源码 / 历史归档 / 模型：零删除、零改动（仅只读定位与复制）。

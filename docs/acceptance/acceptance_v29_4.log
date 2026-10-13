@@ -1,3 +1,4 @@
+# PUBLIC SANITIZED TRANSCRIPT: user-specific temporary paths are replaced with <REDACTED_TEMP_DIR>; test verdicts and other evidence remain unchanged.
 V29.4 离线验收  PASS=33 FAIL=0 HOLD=2
 
 [PASS] A 候选文件清单与逐文件差异复核
@@ -83,9 +84,9 @@ FAIL     MISSING  references/base-en.txt
 FAIL     MISSING  references/ref-en.txt
 [PASS] H2 AudioRefine 安装器 --verify 不写回仓库
       仓库无新增/改动
-      evidence: rc=2 out=FAIL     vendor/nodes.py 缺失：C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_lusoq1vs\audio\nodes.py
+      evidence: rc=2 out=FAIL     vendor/nodes.py 缺失：<REDACTED_TEMP_DIR>\audio\nodes.py
 [PASS] H3 全新临时目录可完成路径配置与目录建立（无真实私有路径）
-      PATHS_CONFIGURED True | PROJECT_DIR C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_lusoq1vs | HAS_PLACEHOLDER False | DIRS_CREATED True
+      PATHS_CONFIGURED True | PROJECT_DIR <REDACTED_TEMP_DIR> | HAS_PLACEHOLDER False | DIRS_CREATED True
 [PASS] I1 文档必备口径串齐备
       全部命中
 [PASS] I2 过宽/矛盾表述已清除

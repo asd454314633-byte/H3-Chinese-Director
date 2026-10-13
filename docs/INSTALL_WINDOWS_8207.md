@@ -1,4 +1,6 @@
-# Windows 环境安装 / 启动 / 验证 / 排错 / 升级与回滚
+# Windows 环境安装 / 启动 / 验证 / 排错 / 升级与回滚（8197 正式公开版）
+
+> 文件名中的 `8207` 为旧版兼容名称，本指南实际只针对公开的 **8197 生产线**。端口可以自行选择，不能由文档文件名推断运行路线。
 
 本公开包**只发布 8197 冻结生产线**：唯一工作流
 `workflows/current/V29_chinese_director_production_8197.json` 与
@@ -32,25 +34,22 @@
 
 ## 1.1 Git 客户端预配置（Windows 必做一次）
 
-本仓库与部分工作流历史文件包含 **≥260 字符的长路径**，且 Windows 默认禁止长路径（`LongPathsEnabled=0`）、Git 默认开启 `core.autocrlf`。若不先配置，克隆/检出时会出现：部分文件静默缺失（不报错）、文本文件被 LF→CRLF 改写导致校验对不上。
+Windows 对长路径有限制；建议 Git 启用长路径支持。**本仓库现已提供 `.gitattributes`，将源码和 JSON 的换行规则固定为 LF**，不再要求修改整台电脑的全局 `core.autocrlf`。验证字节一致性时仍应以 Git Blob 为准。
 
 ```bat
 :: ① 允许 Git 处理长路径（只影响 Git，不动系统注册表）
 git config --global core.longpaths true
 
-:: ② 关闭自动换行转换（仓库内 .gitattributes 不存在时，防止 LF→CRLF 改写文件字节）
-git config --global core.autocrlf false
-
-:: ③ 验证：两条都应输出配置值（longpaths=true / autocrlf=false）
+:: ② 验证长路径配置；仓库级 .gitattributes 管理 LF，无需更改全局 autocrlf
 git config --global core.longpaths
-git config --global core.autocrlf
 ```
 
 克隆本仓库并核对完整性（可选但推荐）：
 
 ```bat
-git clone https://github.com/asd454314633-byte/H3-Chinese-Director.git
-cd H3-Chinese-Director
+set "REPO=%USERPROFILE%\H3-Chinese-Director"
+git clone https://github.com/asd454314633-byte/H3-Chinese-Director.git "%REPO%"
+cd /d "%REPO%"
 git ls-files workflows | find /c /v ""            :: 必须输出 1（唯一公开工作流）
 git ls-files | findstr /B "history/ workflows/history/ manifests/public_files.csv"
                                                    :: 必须无任何输出（历史档案已退出公开包）
@@ -112,19 +111,32 @@ git clone https://github.com/obvpm/comfyui-obvpm.git && git -C comfyui-obvpm che
 
 ### 2.3 本地作者自研节点
 
-把本仓库内容复制到你的 ComfyUI（公开包内只有 **8197 冻结生产线**一条线）。`<repo>` 换成你克隆本仓库的路径（例如 `%USERPROFILE%\H3-Chinese-Director`）：
+把本仓库内容复制到 ComfyUI（公开包内只有 **8197 冻结生产线**）。以下命令使用前面克隆时设置的 `%REPO%`，不要把 `<repo>` 之类的尖括号占位符直接粘贴到 Windows CMD（会被解析为重定向）：
 
 ```bat
-xcopy /E /I <repo>\custom_nodes\local_author\8197_production_line\*  "%BASE%\ComfyUI\custom_nodes\"
+xcopy /E /I /Y "%REPO%\custom_nodes\local_author\8197_production_line\*" "%BASE%\ComfyUI\custom_nodes\"
 ```
 
 > 8207 实验线源码不在本公开包内，无需也无法安装；本仓库不提供第二条线的复制命令。
 
-### 2.4 模型
+### 2.4 外部依赖（需要相关功能时安装）
+
+官方 MiniMax Skill 和音频精修源码不随仓库重新分发。**请先自行确认上游许可并获得对应源码副本**；下面仅是路径示例，`%USERPROFILE%\MiniMax-H3` 和 `%USERPROFILE%\ComfyUI-H3-AudioRefine` 必须是你实际取得的上游目录。
+
+```bat
+python "%REPO%\scripts\setup\install_minimax_official_skill.py" --source "%USERPROFILE%\MiniMax-H3" --dest "%BASE%\ComfyUI\custom_nodes\H3_V28_Director\skills\official-minimax-h3-prompt"
+python "%REPO%\scripts\setup\install_h3_audio_refine.py" --source "%USERPROFILE%\ComfyUI-H3-AudioRefine" --dest "%BASE%\ComfyUI\custom_nodes\H3_AudioUpgrade\vendor"
+python "%REPO%\scripts\setup\install_minimax_official_skill.py" --verify --dest "%BASE%\ComfyUI\custom_nodes\H3_V28_Director\skills\official-minimax-h3-prompt"
+python "%REPO%\scripts\setup\install_h3_audio_refine.py" --verify --dest "%BASE%\ComfyUI\custom_nodes\H3_AudioUpgrade\vendor"
+```
+
+安装器默认写入公开仓库副本内的路径；若用户已经复制节点到 ComfyUI，务必像上例一样显式指定 `--dest`。AudioRefine 安装器**没有** `--allow-download` 参数；官方 Skill 安装器有联网选项，但默认不联网，且须自行确认许可。
+
+### 2.5 模型
 
 按 [`docs/MODELS.md`](MODELS.md) 自行下载，放到对应目录。可用 `config/examples/extra_model_paths.example.yaml` 作为 `extra_model_paths.yaml` 的模板（**把 `base_path` 改成你自己的路径**）。
 
-### 2.5 工作流
+### 2.6 工作流
 
 把 `workflows/current/V29_chinese_director_production_8197.json` 放入 `ComfyUI/user/default/workflows/`，或在前端直接导入。
 
@@ -133,10 +145,12 @@ xcopy /E /I <repo>\custom_nodes\local_author\8197_production_line\*  "%BASE%\Com
 ```bat
 cd /d "%BASE%\ComfyUI"
 .venv\Scripts\activate
-python main.py --port 8207
+python main.py --port 8197
 ```
 
-本仓库提供的辅助脚本（已脱敏，可直接改造）：
+端口 `8197` 只是示例，已占用时改用其他空闲端口；不能通过改端口把 8197 工作流变成 8207 实验线。
+
+以下为历史 8207 辅助脚本（**不是本公开包的必需启动流程**，不建议新用户执行）：
 
 - `scripts/setup/launch_8207_visible_host.py` —— 可见控制台启动（Windows 交互式会话）
 - `scripts/setup/run_8207_visible.ps1` —— PowerShell 启动包装
@@ -152,7 +166,7 @@ python main.py --port 8207
 在**本仓库根目录**执行（`<repo>` 为你克隆本仓库的路径）：
 
 ```bat
-cd /d <repo>
+cd /d "%REPO%"
 python scripts/verify/verify_workflow_structure.py
 ```
 

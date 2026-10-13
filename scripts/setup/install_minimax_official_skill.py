@@ -21,13 +21,13 @@ pinned upstream blob SHA1 so a wrong/partial copy cannot pass silently.
 Usage
 -----
     # install from a local clone/extract of MiniMax-AI/MiniMax-H3
-    python scripts/setup/install_minimax_official_skill.py --source D:\\src\\MiniMax-H3
+    python scripts/setup/install_minimax_official_skill.py --source .\\MiniMax-H3
 
     # verify an already-installed copy
     python scripts/setup/install_minimax_official_skill.py --verify
 
     # choose another destination (default: <repo>/.../skills/official-minimax-h3-prompt)
-    python scripts/setup/install_minimax_official_skill.py --source ... --dest D:\\skills\\h3-prompt
+    python scripts/setup/install_minimax_official_skill.py --source ... --dest .\\h3-prompt
 
     # opt-in network download (requires TWO explicit flags; prints the HOLD notice)
     python scripts/setup/install_minimax_official_skill.py --allow-download --i-have-license-rights

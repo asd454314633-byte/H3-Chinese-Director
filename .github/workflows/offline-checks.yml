@@ -1,0 +1,36 @@
+name: Offline public-release checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-verification:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify frozen workflow exact bytes
+        run: |
+          python -c "import hashlib,pathlib; p=pathlib.Path('workflows/current/V29_chinese_director_production_8197.json'); raw=p.read_bytes(); expected='311609b1e03316e724b97c8cf8783451955cb22a12fd3ea31844e6632488302e'; actual=hashlib.sha256(raw).hexdigest(); assert actual==expected, f'Frozen workflow changed: {actual}'; print('WORKFLOW_SHA256=PASS')"
+      - name: Workflow structure
+        run: python scripts/verify/verify_workflow_structure.py
+      - name: Public release scope
+        run: python tests/test_public_release_scope.py
+      - name: Personal prompt residue
+        run: python tests/test_no_personal_prompt_residue.py
+      - name: Runtime safety gates
+        run: python tests/test_gate_repair.py
+      - name: Sensitive content scan
+        run: python scripts/sanitize/scan_sensitive.py .

@@ -83,11 +83,9 @@ tests → attribution type → verification status) is in
 | Dependency | Upstream | Licence | Install | Behaviour when missing |
 |---|---|---|---|---|
 | Official MiniMax H3 prompt-writing Skill | `MiniMax-AI/MiniMax-H3` → `skills/h3-prompt-writing/` | **`LICENSE_HOLD`** (GitHub API `license == null`; HF MiniMax Community License Agreement with regional/commercial restrictions) | obtain your own copy, then `python scripts/setup/install_minimax_official_skill.py --source <copy>`, or set `H3_MINIMAX_OFFICIAL_SKILL_DIR=<copy>` | raises `H3OfficialGuideMissing` **only when the official guide is actually parsed** (message includes provenance, licence note and install command). `H3_V28_Director` still imports fine. |
-| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <copy>` (or `--allow-download --i-have-license-rights`) | raises `H3AudioRefineMissing` with upstream URL, licence, commit and `git clone` command. **No stub class, no silent skip.** |
+| ComfyUI-H3-AudioRefine | `Adudeguyman/ComfyUI-H3-AudioRefine` @ `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed` | **MIT** © 2026 Adudeguyman | `python scripts/setup/install_h3_audio_refine.py --source <copy>` (this installer supports local `--source` and `--dest` only; no download flag) | raises `H3AudioRefineMissing` with upstream URL, licence, commit and `git clone` command. **No stub class, no silent skip.** |
 
-Both installers are **offline by default** (no automatic download) and `--verify` only checks.
-They install into a directory **outside** this repository, so no third-party original is written
-back into the package.
+Both installers are **offline by default** and `--verify` only checks. **Their default destinations are inside the cloned repository**, not automatically inside an existing ComfyUI installation. If the nodes have already been copied to ComfyUI, specify `--dest` pointing to `ComfyUI/custom_nodes/H3_V28_Director/skills/official-minimax-h3-prompt` or `ComfyUI/custom_nodes/H3_AudioUpgrade/vendor` respectively, or set `H3_MINIMAX_OFFICIAL_SKILL_DIR` / `H3_AUDIO_REFINE_DIR`. See the Windows install guide for exact commands.
 
 > **8197 acceptance does not imply 8207 acceptance.** 8197 is the frozen production line; 8207 is an
 > independent runtime/experiment line kept in the author's local archive only — its sources are **not**
@@ -141,6 +139,6 @@ unchanged.
 - Third-party dependencies and models: their own licences, listed in
   [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) and `docs/UPSTREAM_ATTRIBUTION.md`.
   Anything whose licence could not be verified from an authoritative source is marked
-  `LICENSE_HOLD` and **no legal conclusion is asserted** — see [`REMAINING_HOLD.md`](REMAINING_HOLD.md).
+  `LICENSE_HOLD` and **no legal conclusion is asserted** — see [`REMAINING_HOLD.md`](docs/acceptance/REMAINING_HOLD.md).
 - **No weights are shipped**; users download them under the upstream authors' licence, regional and
   commercial terms.
