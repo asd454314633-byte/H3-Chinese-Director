@@ -26,7 +26,7 @@
 | ComfyUI-Ref2VA-VSA | <https://github.com/Kablex/ComfyUI-Ref2VA-VSA> | Kablex | 自定义 LICENSE（本地记录为 Apache-2.0 文本；GitHub API SPDX 探测为 NOASSERTION），以仓库内 LICENSE 文本为准 | 否 |
 | ComfyUI-MiniMax-H3-PDD-Acc | <https://github.com/Jalen-Brunson/ComfyUI-MiniMax-H3-PDD-Acc> | Jalen-Brunson | Apache-2.0（经 GitHub API 核实 2026-10-12） | 否（本地作者仅在其机制之上做生命周期二次开发，见下） |
 | ComfyUI-H3-Motion-Context | <https://github.com/NikoDemon80/ComfyUI-H3-Motion-Context> | NikoDemon80 | 见上游 LICENSE | 否 |
-| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | **`LICENSE_HOLD`** —— 上游仓库**未附带可被 SPDX 识别的 LICENSE 文件**（仅 `native/LICENSE` 为 Apache-2.0 文本片段，不能代表整包许可）；不做无依据法律定论 | 否 |
+| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | **分目录确认**（2026-10-13 复核）：`native/LICENSE` 为 Apache-2.0，版权声明 "Copyright (c) 2025 Comfy Org"（vendored 自 ComfyUI 上游的 native 组件，**不能代表整包**）；仓库其余部分根目录无 LICENSE，按版权保留处理，不做无依据法律定论 | 否 |
 | comfyui-obvpm | <https://github.com/obvpm/comfyui-obvpm> | obvpm | 见上游 LICENSE | 否 |
 | anthropic-claude | <https://github.com/alexmunteanu/comfyui-anthropic-claude> | alexmunteanu | 见上游 LICENSE | 否（仅提示词辅助，非生产必需） |
 | comfyui_claude_prompt_generator | <https://github.com/PauldeLavallaz/comfyui_claude_prompt_generator> | PauldeLavallaz | 见上游 LICENSE | 否（非生产必需） |

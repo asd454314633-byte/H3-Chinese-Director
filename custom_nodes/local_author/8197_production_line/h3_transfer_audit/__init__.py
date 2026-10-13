@@ -8,7 +8,13 @@ import re
 from pathlib import Path
 
 TRACES = {}
-DEST = Path(r"<REDACTED_LOCAL_PATH>/D")
+# 私有原件此处为写死的本机绝对路径；改为环境变量配置，未配置时写盘入口明确报错。
+import os as _os
+DEST = Path(_os.environ.get("H3_TRANSFER_AUDIT_OUT") or "<H3_TRANSFER_AUDIT_OUT_UNCONFIGURED>")
+
+def _require_dest():
+    if "UNCONFIGURED" in DEST.name:
+        raise RuntimeError("H3 transfer audit 输出目录未配置：请设置环境变量 H3_TRANSFER_AUDIT_OUT 为可写目录后重试")
 
 def tensor_record(t):
     a = t.detach().cpu().contiguous()
@@ -101,6 +107,7 @@ class H3TransferAuditReceipt:
         if director_prompt is not None:
             trace['checks']['director_to_external_to_encoder_exact'] = director_prompt == resolved_prompt == trace.get('actual_encoder_prompt')
         trace['status'] = 'PASS' if all(trace['checks'].values()) else 'FAIL'
+        _require_dest()
         DEST.mkdir(parents=True, exist_ok=True)
         name = re.sub(r'[^A-Za-z0-9_-]', '_', audit_id)
         (DEST / (name + '.json')).write_text(json.dumps(trace, ensure_ascii=False, indent=2), encoding='utf-8')

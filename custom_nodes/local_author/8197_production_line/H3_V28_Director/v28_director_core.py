@@ -129,7 +129,7 @@ def compile_reference_text(text: str, mapping: list[dict]) -> dict:
 
 def planner_input(*, active_slots: list[int], reference_usage: str,
                   story_goal: str, total_seconds: float, segment_seconds: float,
-                  dialogue_mode: str = "<REDACTED_USER_PROMPT>", source_dialogue: str = "",
+                  dialogue_mode: str = "", source_dialogue: str = "",  # 原默认值已脱敏丢失；空串=无对白（与其他值共享 else 分支）
                   previous_end_state: str = "", constraints: str = "",
                   planner_controls: dict | None = None) -> dict:
     mapping = active_reference_map(active_slots)
@@ -482,7 +482,7 @@ def validate_director_plan(plan: dict, planner: dict) -> dict:
         receipt = validate_dialogue_track(track.get("SOURCE_DIALOGUE") or "",
                                           [x["dialogue"] for x in segments])
         if not receipt["passed"]:
-            raise DirectorCompileError(f"<REDACTED_USER_PROMPT>")
+            raise DirectorCompileError("对白轨校验未通过：SOURCE_DIALOGUE 与各段对白不一致（详见 validate_dialogue_track 收据）")
     plan["reference_relationships"] = planner["reference_relationships"]
     plan["ACTIVE_REFERENCE_MAP"] = planner["ACTIVE_REFERENCE_MAP"]
     return plan
@@ -581,7 +581,7 @@ def audit_dialogue_contract(text: str, *, expected_events: int,
     e: list[str] = []
     rendered = len(_D_BLOCK.findall(text or ""))
     if rendered != int(expected_events):
-        e.append(f"<REDACTED_USER_PROMPT>"
+        e.append(f"对白块渲染校验未通过："
                  f"最终 Prompt 渲染了 {rendered} 个 <d> 块")
     for section in ("overall_soundscape", "non_diegetic_music"):
         body = _section_body(text or "", section)

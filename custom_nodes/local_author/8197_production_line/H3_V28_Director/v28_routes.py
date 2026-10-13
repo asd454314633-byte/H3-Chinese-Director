@@ -301,7 +301,7 @@ async def _core_dry_run(request):
             story_goal=str(body.get("story_goal") or ""),
             total_seconds=float(body.get("total_seconds") or 10),
             segment_seconds=float(body.get("segment_seconds") or 10),
-            dialogue_mode=str(body.get("dialogue_mode") or "<REDACTED_USER_PROMPT>"),
+            dialogue_mode=str(body.get("dialogue_mode") or ""),  # 原默认值已脱敏丢失；空串=无对白
             source_dialogue=str(body.get("source_dialogue") or ""),
             previous_end_state=str(body.get("previous_end_state") or ""),
             constraints=str(body.get("user_constraints") or body.get("constraints") or ""),

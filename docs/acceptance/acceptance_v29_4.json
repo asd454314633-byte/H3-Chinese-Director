@@ -7,8 +7,8 @@
       "id": "A",
       "name": "候选文件清单与逐文件差异复核",
       "status": "PASS",
-      "detail": "改动/新增 40 项；删除 3 项；清单已写 docs/acceptance/candidate_file_manifest.csv",
-      "evidence": "{\"modified\": 24, \"deleted\": [\"D\\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/SKILL.md\", \"D\\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/base-en.txt\", \"D\\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/ref-en.txt\"]}"
+      "detail": "改动/新增 14 项；删除 0 项；清单已写 docs/acceptance/candidate_file_manifest.csv",
+      "evidence": "{\"modified\": 14, \"deleted\": []}"
     },
     {
       "id": "B1",
@@ -92,7 +92,7 @@
       "name": "语义位置占位符（AST 定位，登记为 HOLD，不计入 PASS）",
       "status": "HOLD",
       "detail": "仓库检查器报告 -1 处语义占位符；本轮不作为 PASS 依据",
-      "evidence": "SEMANTIC 语义位置占位符：45 处 -> HOLD（内容被脱敏移除，公开包不可重建）"
+      "evidence": "SEMANTIC 语义位置占位符：36 处 -> HOLD（内容被脱敏移除，公开包不可重建）"
     },
     {
       "id": "D3",
@@ -119,7 +119,7 @@
       "id": "E-test_no_personal_prompt_residue",
       "name": "test_no_personal_prompt_residue.py（私人提示词残留）",
       "status": "PASS",
-      "detail": "PASS: 全树 187 个文本文件（10 个工程文档走文件级白名单）无个人创作提示词残留，且尺子经植入样本自证有效 —— PERSONAL_PROMPT_RESIDUE=0",
+      "detail": "PASS: 全树 191 个文本文件（10 个工程文档走文件级白名单）无个人创作提示词残留，且尺子经植入样本自证有效 —— PERSONAL_PROMPT_RESIDUE=0",
       "evidence": ""
     },
     {
@@ -204,13 +204,13 @@
       "name": "AudioRefine 安装器 --verify 不写回仓库",
       "status": "PASS",
       "detail": "仓库无新增/改动",
-      "evidence": "rc=2 out=FAIL     vendor/nodes.py 缺失：C:\\Users\\ZHAOCHEN\\AppData\\Local\\Temp\\h3_fresh_install_qkbnfdmk\\audio\\nodes.py"
+      "evidence": "rc=2 out=FAIL     vendor/nodes.py 缺失：%TEMP%\\h3_fresh_install_lusoq1vs\\audio\\nodes.py"
     },
     {
       "id": "H3",
       "name": "全新临时目录可完成路径配置与目录建立（无真实私有路径）",
       "status": "PASS",
-      "detail": "PATHS_CONFIGURED True | PROJECT_DIR C:\\Users\\ZHAOCHEN\\AppData\\Local\\Temp\\h3_fresh_install_qkbnfdmk | HAS_PLACEHOLDER False | DIRS_CREATED True",
+      "detail": "PATHS_CONFIGURED True | PROJECT_DIR %TEMP%\\h3_fresh_install_lusoq1vs | HAS_PLACEHOLDER False | DIRS_CREATED True",
       "evidence": ""
     },
     {

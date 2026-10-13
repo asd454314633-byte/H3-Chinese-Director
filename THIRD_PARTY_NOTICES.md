@@ -81,7 +81,7 @@
 | ComfyUI-Ref2VA-VSA | <https://github.com/Kablex/ComfyUI-Ref2VA-VSA> | Kablex | 自定义（SPDX NOASSERTION，以仓库 LICENSE 文本为准） | 引用安装 |
 | ComfyUI-MiniMax-H3-PDD-Acc | <https://github.com/Jalen-Brunson/ComfyUI-MiniMax-H3-PDD-Acc> | Jalen-Brunson | Apache-2.0 | 引用安装 |
 | ComfyUI-H3-Motion-Context | <https://github.com/NikoDemon80/ComfyUI-H3-Motion-Context> | NikoDemon80 | (按上游仓库声明) | 引用安装 |
-| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | **上游仓库无 LICENSE**（2026-10-13 复核） | 引用安装 |
+| H3-Optimizations | <https://github.com/Zironic/H3-Optimizations> | Zironic | **分目录确认**：`native/` 子树为 Apache-2.0（版权方 **Comfy Org**，vendored 自 ComfyUI 上游）；仓库其余部分（自研节点）**根目录无 LICENSE**，按版权保留处理 —— 引用安装不分发 | 引用安装 |
 | comfyui-obvpm | 上游已改名，见 `docs/UPSTREAM_ATTRIBUTION.md` | obvpm | (按上游仓库声明) | 引用安装 |
 | anthropic-claude | <https://github.com/alexmunteanu/comfyui-anthropic-claude> | alexmunteanu | MIT © 2026 Alex Munteanu | 引用安装 |
 | comfyui_claude_prompt_generator | <https://github.com/PauldeLavallaz/comfyui_claude_prompt_generator> | PauldeLavallaz | MIT © 2024 Paul de Lavallaz | 引用安装 |

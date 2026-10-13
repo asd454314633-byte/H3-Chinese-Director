@@ -127,7 +127,7 @@ def _input_dirs() -> list[Path]:
 
 
 def resolve_input_image(name: str) -> Path | None:
-    """Map an uploaded filename (possibly `subdir/f<REDACTED_MEDIA>`) to a real path,
+    """Map an uploaded filename (possibly `subdir/<name>`) to a real path,
     refusing anything that escapes the input directory."""
     raw = str(name or "").strip().replace("\\", "/").strip("/")
     if not raw or ".." in Path(raw).parts:
@@ -175,7 +175,7 @@ def _director_plan_now(*, project_id: str, story_goal: str, images: list[dict],
              style: str = "auto", continuation_mode: str = "same_shot",
              reference_usage: str = "",
              user_constraints: str = "",
-             dialogue_mode: str = "<REDACTED_USER_PROMPT>", source_dialogue: str = "",
+             dialogue_mode: str = "", source_dialogue: str = "",  # 原默认值已脱敏丢失；空串=无对白
              dialogue_density: str = "正常", allow_polish: bool = False,
              provider: str = "", task: dict | None = None,
              keep_director_up: bool = False, generation_settings: dict | None = None) -> dict:
@@ -448,7 +448,7 @@ def start_planning_async(payload: dict) -> dict:
         continuation_mode=payload.get("continuation_mode") or "same_shot",
         reference_usage=payload.get("reference_usage") or "",
         user_constraints=payload.get("user_constraints") or "",
-        dialogue_mode=payload.get("dialogue_mode") or "<REDACTED_USER_PROMPT>",
+        dialogue_mode=payload.get("dialogue_mode") or "",
         source_dialogue=payload.get("source_dialogue") or "",
         dialogue_density=payload.get("dialogue_density") or "正常",
         allow_polish=bool(payload.get("allow_polish")),

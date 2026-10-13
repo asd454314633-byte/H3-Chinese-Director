@@ -1,8 +1,8 @@
 V29.4 离线验收  PASS=33 FAIL=0 HOLD=2
 
 [PASS] A 候选文件清单与逐文件差异复核
-      改动/新增 40 项；删除 3 项；清单已写 docs/acceptance/candidate_file_manifest.csv
-      evidence: {"modified": 24, "deleted": ["D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/SKILL.md", "D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/base-en.txt", "D\tcustom_nodes/local_author/8197_production_line/H3_V28_Director/skills/official-minimax-h3-prompt/references/ref-en.txt"]}
+      改动/新增 14 项；删除 0 项；清单已写 docs/acceptance/candidate_file_manifest.csv
+      evidence: {"modified": 14, "deleted": []}
 [PASS] B1 Python 语法（121 个文件）
       全部通过
 [PASS] B2 JS/CJS 语法（25 个文件）
@@ -28,7 +28,7 @@ V29.4 离线验收  PASS=33 FAIL=0 HOLD=2
       evidence: {}
 [HOLD] D2 语义位置占位符（AST 定位，登记为 HOLD，不计入 PASS）
       仓库检查器报告 -1 处语义占位符；本轮不作为 PASS 依据
-      evidence: SEMANTIC 语义位置占位符：45 处 -> HOLD（内容被脱敏移除，公开包不可重建）
+      evidence: SEMANTIC 语义位置占位符：36 处 -> HOLD（内容被脱敏移除，公开包不可重建）
 [HOLD] D3 冻结工作流内占位符（禁止改 JSON，仅登记）
       共 11 处，其中 8 处位于节点 widgets_values（LoadImageCrop 参考图槽），加载会失败；按任务书第四节不得修改该 JSON，故登记为 HOLD 并在 REMAINING_HOLD.md 说明
       evidence: [["<REDACTED_MEDIA>", "$/nodes[48]/widgets_values[0]", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[48]/widgets_values_named/image", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[49]/widgets_values[0]", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[49]/widgets_values_named/image", "H3_NVFP4_AB_20261006/Qwen_image_2.<REDACTED_MEDIA>"], ["<REDACTED_MEDIA>", "$/nodes[50]/widgets_val
@@ -37,7 +37,7 @@ V29.4 离线验收  PASS=33 FAIL=0 HOLD=2
 [PASS] E-test_workflow_structure test_workflow_structure.py（工作流结构）
       结果：13 通过 / 0 失败 —— STRUCTURAL_REGRESSION=PASS
 [PASS] E-test_no_personal_prompt_residue test_no_personal_prompt_residue.py（私人提示词残留）
-      PASS: 全树 187 个文本文件（10 个工程文档走文件级白名单）无个人创作提示词残留，且尺子经植入样本自证有效 —— PERSONAL_PROMPT_RESIDUE=0
+      PASS: 全树 191 个文本文件（10 个工程文档走文件级白名单）无个人创作提示词残留，且尺子经植入样本自证有效 —— PERSONAL_PROMPT_RESIDUE=0
 [PASS] E-test_gate_repair test_gate_repair.py（门禁修复（含故意失败））
       OK
 [PASS] F1 唯一工作流 Git blob SHA1 不变
@@ -83,9 +83,9 @@ FAIL     MISSING  references/base-en.txt
 FAIL     MISSING  references/ref-en.txt
 [PASS] H2 AudioRefine 安装器 --verify 不写回仓库
       仓库无新增/改动
-      evidence: rc=2 out=FAIL     vendor/nodes.py 缺失：C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_qkbnfdmk\audio\nodes.py
+      evidence: rc=2 out=FAIL     vendor/nodes.py 缺失：C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_lusoq1vs\audio\nodes.py
 [PASS] H3 全新临时目录可完成路径配置与目录建立（无真实私有路径）
-      PATHS_CONFIGURED True | PROJECT_DIR C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_qkbnfdmk | HAS_PLACEHOLDER False | DIRS_CREATED True
+      PATHS_CONFIGURED True | PROJECT_DIR C:\Users\ZHAOCHEN\AppData\Local\Temp\h3_fresh_install_lusoq1vs | HAS_PLACEHOLDER False | DIRS_CREATED True
 [PASS] I1 文档必备口径串齐备
       全部命中
 [PASS] I2 过宽/矛盾表述已清除

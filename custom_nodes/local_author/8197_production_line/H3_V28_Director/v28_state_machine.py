@@ -546,7 +546,7 @@ def view(project_id: str) -> dict:
         "story_goal": plan.get("story_goal"),
         "continuation_mode": plan.get("continuation_mode"),
         "segments": [{"id": s.get("id"), "beat": s.get("beat"),
-                      "dialogue_summary": (s.get("user_display_zh") or {}).get("dialogue") or "<REDACTED_USER_PROMPT>",
+                      "dialogue_summary": (s.get("user_display_zh") or {}).get("dialogue") or "",
                       "duration": s.get("duration"), "locked": bool(s.get("locked")),
                       "seed": s.get("seed"),
                       "start_state": s.get("start_state"), "end_state": s.get("end_state"),
@@ -620,12 +620,6 @@ def _ffprobe_bin() -> str | None:
     found = shutil.which("ffprobe")
     if found:
         return found
-    # Common WinGet install location on this machine; harmless if absent.
-    win = (r"<REDACTED_LOCAL_PATH>/C"
-           r"Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/"
-           r"ffmpeg-8.1.1-full_build/bin/ffprobe.exe")
-    if os.path.isfile(win):
-        return win
     return None
 
 
