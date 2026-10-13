@@ -10,8 +10,8 @@
 不恢复任何真实私有路径，也不在缺失时静默降级。
 
 用法：
-    set H3_8207_TASK_ROOT=D:\\你的\\8207\\隔离目录
-    set H3_8207_PYTHON=D:\\你的\\8207\\隔离目录\\runtime\\.venv\\Scripts\\python.exe
+    set H3_8207_TASK_ROOT=.\\h3-8207
+    set H3_8207_PYTHON=.\\h3-8207\\runtime\\.venv\\Scripts\\python.exe
 """
 
 import os
@@ -31,7 +31,7 @@ def _require(name, what):
         raise H3_8207ConfigError(
             "8207 隔离线路径未配置：请设置环境变量 %s 指向你的 8207 隔离环境根目录。\n"
             "  这是脱敏后的公开副本，私有原件里的真实本机路径**不会**被恢复、也不会被猜测。\n"
-            "  示例（Windows）：set %s=D:\\你的\\8207\\隔离目录\n"
+            "  示例（Windows）：set %s=.\\h3-8207\n"
             "  用途：%s" % (name, name, what)
         )
     p = pathlib.Path(raw)
@@ -80,7 +80,7 @@ def python_exe():
     if not raw:
         raise H3_8207ConfigError(
             "8207 隔离线的 Python 解释器未配置：请设置环境变量 %s 指向 python.exe。\n"
-            "  示例：set %s=D:\\你的\\8207\\隔离目录\\.venv\\Scripts\\python.exe\n"
+            "  示例：set %s=.\\h3-8207\\.venv\\Scripts\\python.exe\n"
             "  说明：私有原件里的解释器绝对路径已被脱敏移除，这里不做任何猜测。"
             % (ENV_PYTHON, ENV_PYTHON)
         )
