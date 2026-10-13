@@ -1,5 +1,12 @@
 # H3 中文导演台｜ComfyUI MiniMax H3 Chinese Director
 
+
+## 真实演示与来源
+
+[中文演示说明](docs/DEMO.md) · [English demo notes](docs/DEMO_EN.md) · [证据摘要](docs/DEMO_EVIDENCE.md)
+
+已在本地制作真实 8197 V29 界面图及 50 秒演示片，使用 2026-10-09 既有验收结果，未新增 GPU 生成。**图片与视频的公开发布仍为 HOLD**：生成结果地域许可及现有二进制门禁尚未满足；本页不冒称完整素材已上传。
+
 **面向 ComfyUI 的 MiniMax-H3 多段连续视频生成工作流与全中文导演台。** 支持六段剧情编辑、连续生成与跨段 AV Latent 接续、Ref2VA 多图参考/FL2VA 首尾帧路线控制、Conditioning PreBake 缓存、自动视频合并。适合希望用中文管理长剧情、人物连续性和分段生成流程的 ComfyUI 用户。
 
 **English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
