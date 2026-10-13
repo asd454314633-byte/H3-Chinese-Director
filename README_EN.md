@@ -4,21 +4,26 @@
 
 **中文说明：** [H3 中文导演台](README.md) · [Latest published release: v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
-## Recorded showcase: video output and six-segment editor
+## Recorded showcase | video result and six-segment editor
 
-The animated preview below **plays directly on the repository homepage** (muted GIF); there is no need to open a GitHub MP4 blob preview page.
+![H3 Chinese Director — genuine recorded video frame and six-segment interface](assets/showcase/showcase-cover.jpg)
 
-![H3 video result — animated preview](assets/showcase/demo-preview.gif)
+The animated preview is made from a **genuine recording**. It is silently cropped to exclude a source-video caption advertising an unrelated test; no AI-generated substitute video or interface has been inserted.
 
-**[▶ Open the full 55.7-second MP4 with audio](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)** · [Static cover](assets/showcase/showcase-cover.jpg)
+![Animated preview (cropped genuine recording)](assets/showcase/demo-preview.gif)
 
-> This links directly to the raw MP4. Depending on the browser it may play inline or download; open the downloaded MP4 with a media player. GitHub's `blob/...mp4` page may be unable to preview the file.
+**[▶ Open the complete 55.7-second MP4 (original audio)](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)**
 
-### Six-segment prompt editor and video previews
+> The original MP4 retains its baked-in source caption mentioning “one shot” and “voice cloning”. Those claims describe the source recording; **they are not evidence of this repository's six-segment generation, latent continuation, or voice cloning**. Some browsers download raw MP4 files rather than playing them inline. This is not an embedded README player.
 
-![Six-segment prompt/video panel with private text redacted](assets/showcase/six-segment-panel-redacted.png)
+### Six-segment prompts and video previews
 
-> **Evidence scope:** The recording illustrates visual output and editor/preview layout, but does not independently substantiate 8197 frozen-production provenance, all six generation receipts, AV-latent continuation, automatic merging, or GPU performance.
+[![Six-segment prompt/video panel (private text redacted; click for original size)](assets/showcase/six-segment-panel-redacted.png)](assets/showcase/six-segment-panel-redacted.png)
+
+**[Open the full-size panel screenshot](assets/showcase/six-segment-panel-redacted.png)**
+
+> **Evidence boundary:** The recording shows visual output and the six-segment editing/preview layout. It does not, by itself, verify 8197 frozen-production provenance, six completed generation receipts, AV-latent continuation, automatic merging, or performance. See the separate evidence and feature matrix.
+
 
 ### Project at a glance
 

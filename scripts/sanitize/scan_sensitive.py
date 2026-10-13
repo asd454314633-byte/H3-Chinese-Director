@@ -36,9 +36,9 @@ MEDIA_RE = re.compile(r"(?i)(?<![/\\:])[\w\u4e00-\u9fff\-]{2,140}\."
                       r"(png|jpe?g|webp|gif|bmp|mp4|mov|avi|mkv|webm|wav|mp3|flac|ogg|m4a)\b")
 SHOWCASE_MEDIA_SHA256 = {
     'assets/showcase/h3-six-segment-demo-github.mp4': 'da7039a18f7c7afa15fcf96876d64fa874c6be6993c23829a7b245fdd42ae37b',
-    'assets/showcase/showcase-cover.jpg': 'bc6e3dd8e1db888e562a1cb0827f6bb52e5b1dbd492c36b62a941fd9195601d9',
+    'assets/showcase/showcase-cover.jpg': 'ab046de34540fb3f96079c63a43c12a4c9d783799bdfd624beecb09664d6710e',
     'assets/showcase/six-segment-panel-redacted.png': '19ba3f40fa328d5848e02cf5d34264544c87b2a06052d7e61accf67f6d5c015c',
-    'assets/showcase/demo-preview.gif': '6322bcfb9364d02e2ba9582a478994ed540abd6e8fd40a080d5a33b3b2a15c8a',
+    'assets/showcase/demo-preview.gif': 'd8f9e94dd0710ab6f68e06ba7d37db99ecb6f60cb6e0bbc830fde798fe37f635',
 }
 MEDIA_ALLOW = {"__H3_GUIDE_NOT_SET__.png", "example.png", "example.jpg"}
 MEDIA_ALLOW.update(os.path.basename(p) for p in SHOWCASE_MEDIA_SHA256)

@@ -4,21 +4,26 @@
 
 **English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
-## 实录演示：视频效果与六段剧情控制界面
+## 真实录屏展示｜视频效果与六段导演台
 
-下面是从真实录屏制作的无声动态预览。**进入仓库主页即可看到画面运动**，无需进入 GitHub 的 MP4 文件页面。
+![H3 中文导演台：真实录屏画面及六段剧情界面](assets/showcase/showcase-cover.jpg)
 
-![H3 视频效果动态预览（GIF）](assets/showcase/demo-preview.gif)
+以下为从同一条录屏截取的**无声动态预览**。为避免混淆功能，预览只裁切掉原视频底部其他主题的文字标题；视频画面与人物未通过 AI 重绘。
 
-**[▶ 打开完整 55.7 秒演示视频（MP4，含音频）](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)** · [查看静态封面](assets/showcase/showcase-cover.jpg)
+![真实视频画面动态预览（GIF）](assets/showcase/demo-preview.gif)
 
-> 视频使用 GitHub 原始文件直链打开。部分浏览器会直接播放，部分浏览器会下载文件；如果下载，双击 MP4 即可播放。请勿点击仓库的 `blob/...mp4` 页面，该页面可能提示视频过大，不能预览。
+**[▶ 打开 55.7 秒完整视频（MP4，含原声）](https://raw.githubusercontent.com/asd454314633-byte/H3-Chinese-Director/main/assets/showcase/h3-six-segment-demo-github.mp4)**
 
-### 六段提示词编辑与视频预览界面
+> 完整 MP4 保留原视频画面和原始字幕。字幕中有关“一镜到底”“音色克隆”等内容是原始素材自身的描述，**不是本仓库六段连续生成、Latent 接续或音色克隆的验收声明**。视频链接指向原始 MP4 文件，部分浏览器会直接下载，并不会自动出现 README 内嵌播放器。
 
-![六段提示词与视频预览面板（提示词已脱敏）](assets/showcase/six-segment-panel-redacted.png)
+### 六段提示词与视频预览界面
 
-> **证据边界：** 本视频展示画面效果与六段编辑/预览界面的外观，但不能单凭录屏证明 8197 冻结生产基线来源、完整生成回执、AV Latent 接续、自动合并或性能数据。这些技术结论仍以独立验收记录为准。
+[![六段编辑框和六段视频预览（私人提示词已脱敏，点击查看原尺寸）](assets/showcase/six-segment-panel-redacted.png)](assets/showcase/six-segment-panel-redacted.png)
+
+**[查看六段界面原尺寸截图](assets/showcase/six-segment-panel-redacted.png)**
+
+> **真实性边界：** 这些素材展示实际录屏画面及录屏末尾的六段编辑/预览界面。仅凭录屏无法核定 8197 冻结基线来源、六段完整生成回执、AV Latent 接续、自动合并及速度结论；具体验收仍以独立证据和功能矩阵为准。
+
 
 ### 快速查看
 
