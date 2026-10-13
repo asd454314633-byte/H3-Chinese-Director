@@ -321,8 +321,18 @@ class TestPersistenceRules(StateMachineCase):
         self.assertEqual(leftovers, [], f"temp files leaked: {leftovers}")
 
     def test_nothing_is_written_outside_the_temp_root(self):
-        """The audit must not pollute the real project library."""
-        before = B.fingerprint_all()
+        """The audit must not pollute the real project library.
+
+        G-2: the watch list is configuration-driven. If it is not configured the
+        gate cannot compare anything real, and the only honest outcomes are
+        "configured -> compare" or "HOLD". Silently comparing placeholders (which
+        is what the previous published copy did, and which always passed) is not
+        an option.
+        """
+        try:
+            before = B.fingerprint_all()
+        except B.H3AuditWatchConfigError as exc:
+            self.skipTest("HOLD — 反污染门禁未配置：%s" % exc)
         self.set_plan(3)
         self.generate()
         self.SM.accept(self.pid)

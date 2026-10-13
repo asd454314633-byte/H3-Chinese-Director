@@ -7,10 +7,10 @@ from pathlib import Path
 
 from . import v28_runtime_contract as RC
 
-ROOT = Path(r"<REDACTED_LOCAL_PATH>/D")
+ROOT = Path(os.environ.get("H3_GEMMA_RUNTIME_ROOT") or "<H3_GEMMA_RUNTIME_UNCONFIGURED>")
 RUNTIME = ROOT / "runtime"
 EXE = RUNTIME / "llama-server.exe"
-MODEL = Path(r"<REDACTED_LOCAL_PATH>/D")
+MODEL = Path(os.environ.get("H3_GEMMA_MODEL") or ROOT / "model-not-configured.gguf")
 PORT = 8092
 LOG = ROOT / "gemma4_text_director.log"
 _PROC: subprocess.Popen | None = None

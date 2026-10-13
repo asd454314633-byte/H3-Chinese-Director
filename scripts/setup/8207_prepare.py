@@ -1,8 +1,12 @@
 # SANITIZED_PUBLIC_COPY — 本文件由私有原件经内容级脱敏生成：已移除个人素材/媒体、个人创作提示词、本机绝对路径、身份与凭据、运行状态；历史结论、日期、耗时与验收结果未作任何篡改。
 import pathlib,json,hashlib,shutil,datetime
 T=pathlib.Path(__file__).parent
-P=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D')
-OLD=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D')
+import sys; sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from h3_8207_paths import (task_root as _h3_task_root, python_exe as _h3_python_exe,
+                          production_workflow as _h3_production_workflow,
+                          ui_freeze_json as _h3_ui_freeze_json)
+P=_h3_task_root()
+OLD=P
 R=T/'runtime'
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 def write(n,v): (T/n).write_text(json.dumps(v,ensure_ascii=False,indent=2),encoding='utf-8')
@@ -20,12 +24,12 @@ for s in P.rglob('*'):
 for d in ['input','output','temp','user/default/workflows','logs','models']: (R/d).mkdir(parents=True,exist_ok=True)
 settings=P/'user/default/comfy.settings.json'
 if settings.exists(): shutil.copy2(settings,R/'user/default/comfy.settings.json')
-wf=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D')
+wf=_h3_production_workflow()
 assert sha(wf).upper()=='AE0C4298109781985EAF59799D36705CA21DC03CC66405BF70EB172B75A240CA'
 shutil.copy2(wf,T/'baseline/V29_PRODUCTION_READONLY.json')
 production[str(wf)]=sha(wf)
 write('baseline/PRODUCTION_HASHES.json',production)
-freeze=pathlib.Path(r'<REDACTED_LOCAL_PATH>/D')
+freeze=_h3_ui_freeze_json()
 f=json.loads(freeze.read_text(encoding='utf-8-sig'))
 drift=[]
 for n,h in f['runtime_source_hashes'].items():

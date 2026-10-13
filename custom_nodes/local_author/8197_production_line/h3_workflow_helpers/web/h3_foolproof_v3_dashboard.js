@@ -74,7 +74,11 @@ const H3_DR_REF2VA_SECTIONS = [
 ];
 
 function h3DrExtractSection(text, sectionName) {
-  const re = new RegExp("(?:^|\\n)\\s*" + sectionName + "\\s*:\\s*\\n?([<REDACTED_UNC_PATH>]*?)(?=\\n\\s*[A-Za-z_][A-Za-z_0-9]*\\s*:|$)");
+  // 2026-10-13 修复：脱敏曾把本正则的捕获字符类整体替换为占位符
+  // `[<REDACTED_UNC_PATH>]*?`，使其退化为"只匹配 < R E D A C T E D _ U N C _ P A T H > 这几个字符"，
+  // 结果 h3DrExtractSection 恒返回空串/首字符，段落抽取功能失效。
+  // 语义还原为"惰性匹配任意字符（含换行），直到下一个 `段名:` 或文本结束"。
+  const re = new RegExp("(?:^|\\n)\\s*" + sectionName + "\\s*:\\s*\\n?([\\s\\S]*?)(?=\\n\\s*[A-Za-z_][A-Za-z_0-9]*\\s*:|$)");
   const m = String(text || "").match(re);
   return m ? m[1] : null;
 }

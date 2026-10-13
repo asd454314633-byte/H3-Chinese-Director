@@ -6,7 +6,13 @@ import torch
 from safetensors.torch import save_file,load_file,load as load_bytes
 from comfy.nested_tensor import NestedTensor
 SCHEMA='H3_CONDITIONING_PREBAKE_V1'
-ROOT=Path('<REDACTED_LOCAL_PATH>/D')
+# 私有原件此处为写死的本机绝对路径，内容级脱敏后成为 Windows 非法文件名；
+# 改为环境变量配置：未配置时 save/load 明确报错（不静默写入相对路径）。
+import os as _os
+ROOT=Path(_os.environ.get('H3_PREBAKE_CACHE_ROOT') or '<H3_PREBAKE_CACHE_ROOT_UNCONFIGURED>')
+def _require_cache_root():
+    if 'UNCONFIGURED' in ROOT.name:
+        raise RuntimeError('H3 conditioning prebake 缓存根目录未配置：请设置环境变量 H3_PREBAKE_CACHE_ROOT 为可写目录后重试')
 def canonical(x):return json.dumps(x,ensure_ascii=False,sort_keys=True,separators=(',',':'),allow_nan=False).encode('utf-8')
 def digest(x):return hashlib.sha256(x).hexdigest()
 def file_sha(p):
@@ -62,6 +68,7 @@ def decode(tree,tensors,restore_device=True):
   raise TypeError('Unknown tree tag')
  return visit(tree)
 def load(text,restore_device=True):
+ _require_cache_root()
  c,key=verified_contract(text);folder=ROOT/key
  manifest=json.loads((folder/'manifest.json').read_text())
  if manifest['schema']!=SCHEMA or manifest['key']!=key or manifest['contract']!=c:raise ValueError('Cache contract mismatch')
@@ -74,6 +81,7 @@ def load(text,restore_device=True):
   if str(t.dtype)!=rec['dtype'] or list(t.shape)!=rec['shape'] or digest(t.reshape(-1).view(torch.uint8).numpy().tobytes())!=rec['sha256']:raise ValueError('Tensor mismatch')
  return decode(meta['tree'],tensors,restore_device),meta,manifest
 def save(obj,text):
+ _require_cache_root()
  c,key=verified_contract(text);tree,tensors,inventory=encode(obj)
  ROOT.mkdir(parents=True,exist_ok=True);final=ROOT/key
  if final.exists():

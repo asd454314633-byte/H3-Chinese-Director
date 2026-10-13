@@ -2,7 +2,7 @@
 """Temporary, opt-in observational H3 probe. No tensor modifications; abort after first DiT.
 Loaded only during authorized audit; remove this custom-node directory after audit.
 """
-import json, hashlib, inspect, sys, threading, logging
+import json, hashlib, inspect, os, sys, threading, logging
 from pathlib import Path
 import torch
 from safetensors.torch import save_file
@@ -16,13 +16,25 @@ import nodes
 Ref=nodes.NODE_CLASS_MAPPINGS['MiniMaxH3ReferenceToVideo']
 BasicGuider=nodes.NODE_CLASS_MAPPINGS['BasicGuider']
 
-OUT=Path(r'<REDACTED_LOCAL_PATH>/C')
+# Gate repair (2026-10-13): this used to be `OUT=Path(r'<REDACTED_LOCAL_PATH>/C')`,
+# i.e. a sanitisation placeholder used as a real output directory - the same
+# defect class as G-3. Writing audit evidence to a literal placeholder tree is
+# never correct, so the destination is configuration-only and missing
+# configuration fails loudly instead of creating junk directories.
+AUDIT_OUT_ENV='H3_CONDITION_AUDIT_OUT'
+def out_dir():
+ v=os.environ.get(AUDIT_OUT_ENV,'').strip()
+ if not v:raise RuntimeError('%s 未配置：审计探针拒绝写入占位目录，请先设置该环境变量（绝对路径）'%AUDIT_OUT_ENV)
+ p=Path(v)
+ if not p.is_absolute():raise RuntimeError('%s 必须是绝对路径，当前=%r'%(AUDIT_OUT_ENV,v))
+ p.mkdir(parents=True,exist_ok=True)
+ return p
 TLS=threading.local()
 def current():return getattr(TLS,'case',None)
 def emit(stage,data):
  c=current()
  if c:
-  with (OUT/(c+'.jsonl')).open('a',encoding='utf-8') as f:f.write(json.dumps({'stage':stage,**data},ensure_ascii=False)+'\n')
+  with (out_dir()/(c+'.jsonl')).open('a',encoding='utf-8') as f:f.write(json.dumps({'stage':stage,**data},ensure_ascii=False)+'\n')
   logging.info('[H3 CONDITION AUDIT] %s %s',c,stage)
 def tensor(t):
  a=t.detach().to('cpu').contiguous();f=a.float()
@@ -96,7 +108,7 @@ def forward(self,x,timestep,context,transformer_options={},minimax_payload=None,
  TLS.forwards+=1;p=minimax_payload or {}
  emit('dit_entry',{'forward_index':TLS.forwards,'input_video':tensor(x[0]),'input_audio':tensor(x[1]),'timestep':tensor(timestep),'context':tensor(context),'refs_count':len(p.get('refs',[])),'tags':tensor(p['text_token_tags']) if isinstance(p.get('text_token_tags'),torch.Tensor) else None,'options_keys':list(transformer_options),'denoise_mask_present':denoise_mask is not None})
  out=orig_forward(self,x,timestep,context,transformer_options,minimax_payload,denoise_mask,audio_denoise_mask,**kwargs)
- save_file({'video':out[0].detach().cpu().contiguous(),'audio':out[1].detach().cpu().contiguous()},str(OUT/(current()+'_first_dit.safetensors')))
+ save_file({'video':out[0].detach().cpu().contiguous(),'audio':out[1].detach().cpu().contiguous()},str(out_dir()/(current()+'_first_dit.safetensors')))
  emit('dit_output',{'forward_index':TLS.forwards,'video':tensor(out[0]),'audio':tensor(out[1])})
  name=current();TLS.case=None
  raise RuntimeError('H3_AUDIT_FIRST_FORWARD_CAPTURED:'+name)
@@ -104,7 +116,7 @@ mm.MiniMaxH3Model._forward=forward
 def receive(body):
  if any(n.get('class_type')=='H3AuditClipMarker' for n in body.get('prompt',{}).values()):
   name=next(n['inputs']['audit_case'] for n in body['prompt'].values() if n.get('class_type')=='H3AuditClipMarker')
-  (OUT/(name+'_server_received_post.json')).write_text(json.dumps(body,ensure_ascii=False,indent=2),encoding='utf-8')
+  (out_dir()/(name+'_server_received_post.json')).write_text(json.dumps(body,ensure_ascii=False,indent=2),encoding='utf-8')
  return body
 PromptServer.instance.add_on_prompt_handler(receive)
 orig_executor=execution.PromptExecutor.execute

@@ -1,0 +1,16 @@
+﻿file_id,ledger_field,before,after,reason,evidence
+NODES_ROW_22_H3_AudioUpgrade,upstream_url,(上游仓库未在本机保留 .git，随包 vendor/LICENSE 声明),https://github.com/Adudeguyman/ComfyUI-H3-AudioRefine (MIT, commit fd5a8dfe8b4c636b1877abd07d11ebc985eddbed),任务书第五节要求核实上游地址/版本/许可,GitHub API license.spdx_id=MIT + commits 遍历钉版本（vendor nodes.py blob 4b8e966f 精确匹配）
+NODES_ROW_22_H3_AudioUpgrade,source_distributed,YES,NO,公开包不含 vendor/ 目录（验收 C1 PASS）；声明与实际文件矛盾,acceptance C1 + 树内 0 个嵌套 LICENSE
+NODES_ROW_22_H3_AudioUpgrade,files,H3_AudioUpgrade/ (3 files)→(4 files),H3_AudioUpgrade/ (4 files),新增 audio_refine_loader.py,ls 实测
+NODES_ROW_34_H3_V28_Director,description,含 skills/ 与 tests/ 均为本项目自撰,skills/official-minimax-h3-prompt/ 已排除官方原版三文件（LICENSE_HOLD）仅留 README 登记上游坐标,任务书第三节：不再声明原创、公开包不冒称原创,blob SHA1 比对（b6d9b283/40cf586a/7ae1b2d0）归一化逐字节相等
+NODES_ROW_35_SDPose_MultiPerson,lineage,基于 Comfy-Org/SDPose 官方模型与社区子图结构（表述含糊）,派生自 Comfy-Org/workflow_templates MIT blueprint（commit cdccb2ee / blob 6f6d7ab1）全等部分与 80+10 处修改逐项登记,任务书第四节：锁定蓝图文件与提交版本并复核差异,sdpose_identity.log + verify_sdpose_blueprint.py PASS
+NODES_ROW_W_V29_AUTO_COMPILE,description,（分类字母含义未定义）,E 类含义显式定义为"复制或派生上游源文件/蓝图的派生作品"，与"调用或覆写上游运行时"严格区分,任务书第八节：修正类别字母含义不统一,AUTHOR_CONTRIBUTIONS 分类定义表
+AUTHOR_CONTRIBUTIONS,class_definition,"A/B/C/D 四类 + E 未定义",A/B/C/D/E 五类显式定义 + 旧口径 E 混用说明,任务书第八节,README/台账/THIRD_PARTY_NOTICES 统一口径（I1 PASS）
+AUTHOR_CONTRIBUTIONS,statistics,无 122/27/8 统计口径,"122 个 A 类有私有版本链（L0 71+L1 48+L1R 3）；27 个来源未发现重复但原创过程未充分证明；8 个 C 类版本耦合",任务书第八节,ORIGIN_AUDIT.csv 175 行核实
+AUTHOR_CONTRIBUTIONS,section11,音频链路标 A 类原创,降为 B 类包装层（上游 AudioRefine MIT）,不得冒称原创,nodes.csv + THIRD_PARTY_NOTICES §2c
+LICENSE,scope,笼统 MIT 覆盖全部,显式排除：MiniMax 官方原版（LICENSE_HOLD）、第三方原版、模型权重、ComfyUI 引擎；SDPose 子图注明 MIT 派生来源,任务书第八节：不对第三方原版授 MIT,LICENSE 全文
+README,originality_claim,"不包含任何第三方内容""所有子图完全原创"等断言,改为否定式更正声明（does not claim…）,任务书第八节：修正过宽表述,I2 PASS
+README_EN,originality_claim,同上（英文版）,同上,同上,I2 PASS
+THIRD_PARTY_NOTICES,§6,部分条目声明"未做修改",SDPose 子图明确为"派生+修改"（80 节点叶子+10 连线叶子）,任务书第四节,blueprint_lineage.log + verify_sdpose_blueprint.py
+THIRD_PARTY_NOTICES,§3,ComfyUI-KJNodes 等许可信息不准,Zironic/H3-Optimizations 上游无 LICENSE（修正）；GPL 边界说明（不自动延伸到独立 MIT 仓库）,任务书第八节：不自行做无依据法律定论,GitHub API 核实记录
+docs/UPSTREAM_ATTRIBUTION,coverage,缺 4 项归属,补 Adudeguyman / MiniMax Skill / SDPose blueprint / ComfyUI 内置 PreviewImage；修 obvpm 改名；表格修复,任务书第八节,git log 与 API 取证

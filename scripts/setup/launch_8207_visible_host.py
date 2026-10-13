@@ -6,12 +6,15 @@
 # The ComfyUI console itself is VISIBLE (CREATE_NEW_CONSOLE) - never headless.
 import json
 import os
+import pathlib
 import subprocess
 import sys
 import time
 import urllib.request
 
-TASK_ROOT = r"<REDACTED_LOCAL_PATH>/D"
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+from h3_8207_paths import task_root as _h3_task_root, python_exe as _h3_python_exe
+TASK_ROOT = str(_h3_task_root())
 ENTRY = os.path.join(TASK_ROOT, "run_visible.ps1")
 PORT = 8207
 

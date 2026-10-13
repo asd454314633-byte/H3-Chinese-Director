@@ -109,7 +109,7 @@ PLAN_SYSTEM_TEMPLATE = """\
    join ∈ {join}；camera ∈ {camera}；framing ∈ {framing}；pace ∈ {pace}；tail ∈ {tail}。
    第 1 段 join 用 continuous；最后一段 tail 用 settle 或 hold。
 10. seed 一律填 null（种子由本地状态机分配）；locked 一律填 false。
-<REDACTED_USER_PROMPT>
+若该段含对白（原文拆分或参考创作模式）：
     并在 prompt 里用 <d>[Chinese 原话]</d> 逐字保留。
 """ + JSON_ONLY_TAIL + """
 JSON 结构（严格按此形状，顶层键不得增删）：
@@ -180,7 +180,7 @@ COMPILE_SYSTEM = """\
    禁止句尾堆标签。
 4. 严禁瞬间变化：不出现 suddenly / instantly / abruptly / snaps / spins / freezes / stops dead。
 5. 若这是接续段（非第 1 段），第一句必须承接上一段的姿态与运动趋势，再展开新动作。
-<REDACTED_USER_PROMPT>
+6. 若本段对白来自 dialogue.segments：
    逐字保留，不翻译。
 7. 环境音与配乐各一句以内；没有就写 N/A。
 """ + JSON_ONLY_TAIL + """

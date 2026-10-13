@@ -161,7 +161,11 @@ class H3ExactAudioLock:
         normalized, duration = normalize(audio)
         max_duration = target.shape[-1] / 40
         if duration > max_duration + 1e-6:
-            raise ValueError(f'<REDACTED_USER_PROMPT>')
+            # 2026-10-13: 该提示语曾整句被脱敏替换为占位符，等于把 "<REDACTED_USER_PROMPT>"
+            # 抛给用户。占位符不能充当错误信息，这里按上下文还原为可诊断的表述。
+            raise ValueError(
+                '指定音轨时长 %.3fs 超过本段 latent 可承载时长 %.3fs（请裁剪音轨或延长本段）。'
+                % (duration, max_duration))
         if int(getattr(audio_vae, 'audio_sample_rate', 0)) != 32000:
             raise ValueError('指定音轨需要原生 H3 32kHz Audio VAE。')
         w = normalized['waveform']
@@ -241,7 +245,15 @@ class H3AudioRefineGate:
             return (latent,)
         if '_h3_locked_audio' in latent:
             raise ValueError('指定音轨已锁定，不允许音频精修改写；请选择关闭精修。')
-        from .vendor.nodes import H3AudioRefineSampler
+        # External third-party component (Adudeguyman/ComfyUI-H3-AudioRefine, MIT).
+        # It is NOT bundled with this repository - see audio_refine_loader.py for
+        # upstream coordinates, the pinned commit and the install command. A bare
+        # `from .vendor.nodes import ...` used to raise ModuleNotFoundError with no
+        # hint; the loader turns that into H3AudioRefineMissing naming what to
+        # install. It never returns a stub: silently skipping audio refinement
+        # would change the output without telling anyone.
+        from .audio_refine_loader import load_sampler_class
+        H3AudioRefineSampler = load_sampler_class()
         video, _ = av_parts(latent)
         result = H3AudioRefineSampler().refine(stock_model, positive, positive, latent,
             seed, steps, 1.0, 'euler', 'simple', denoise, video_denoise=0.0)[0]

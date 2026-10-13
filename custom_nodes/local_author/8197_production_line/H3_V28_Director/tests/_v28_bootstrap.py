@@ -29,9 +29,16 @@ import contextlib
 HERE = pathlib.Path(__file__).resolve().parent
 PKG_DIR = HERE.parent                      # ...\custom_nodes\H3_V28_Director
 PKG_NAME = "_h3v28_under_test"             # synthetic parent, NOT the real package
+# Order matters: `from . import X` inside these modules resolves through the
+# synthetic package, so a dependency must be listed before its consumer.
+# The last four were missing from the published tree entirely (2026-10-13
+# remediation): seven test files and one tool import them, so every one of those
+# previously died at import with ModuleNotFoundError.
 MODULES = ("v28_paths", "v28_schemas", "v28_prompt_compiler", "v28_project",
            "v28_state_machine", "v28_provider", "v28_director_prompts",
-           "v28_runtime_contract", "v28_bonsai_runtime", "v28_bonsai_provider")
+           "v28_runtime_contract", "v28_bonsai_runtime", "v28_bonsai_provider",
+           "v28_h3_format", "v28_reference_contract", "v28_reference_hygiene",
+           "v28_manual_continuation")
 
 sys.dont_write_bytecode = True            # do not litter the package __pycache__
 for _s in (sys.stdout, sys.stderr):
@@ -196,10 +203,64 @@ def fresh_env():
 
 
 # --- real-disk fingerprints (used by the no-pollution test) --------------
-REAL_WATCHED = (r"<REDACTED_LOCAL_PATH>/D",
-                r"<REDACTED_LOCAL_PATH>/D",
-                r"<REDACTED_LOCAL_PATH>/D",
-                r"<REDACTED_LOCAL_PATH>/D")
+# Gate repair (2026-10-13, G-2). This used to be a literal tuple of four
+# IDENTICAL placeholder strings::
+#
+#     REAL_WATCHED = (r"<REDACTED_LOCAL_PATH>/D", r"<REDACTED_LOCAL_PATH>/D", ...)
+#
+# Every entry collapsed to the same non-existent placeholder, so
+# ``fingerprint_all()`` returned four identical ``("...", "MISSING", 0, 0, ())``
+# records and the before/after comparison was *always* equal. The anti-pollution
+# test could not fail — a fake gate that reported "nothing was written to the
+# production tree" while proving nothing.
+#
+# The watched paths now come from configuration and are validated:
+#   * ``H3_V28_AUDIT_WATCH_PATHS`` -- os.pathsep-separated absolute paths
+#   * at least two entries, all distinct after normalisation, none a placeholder
+# Unconfigured or collapsed configuration raises; it must never degrade into a
+# comparison that cannot fail.
+ENV_WATCH_PATHS = "H3_V28_AUDIT_WATCH_PATHS"
+_PLACEHOLDER_MARKERS = ("<REDACTED", "REDACTED_LOCAL_PATH", "REDACTED_UNC_PATH",
+                        "<PLACEHOLDER", "<ABSENT>")
+
+
+class H3AuditWatchConfigError(RuntimeError):
+    """The anti-pollution gate has nothing real to watch."""
+
+
+def watched_paths() -> tuple:
+    """The directories the no-pollution gate fingerprints.
+
+    Raises :class:`H3AuditWatchConfigError` when unconfigured or collapsed, so
+    the gate fails loudly instead of comparing four identical placeholders.
+    """
+    raw = os.environ.get(ENV_WATCH_PATHS, "").strip()
+    if not raw:
+        raise H3AuditWatchConfigError(
+            "%s 未配置：反污染门禁没有真实目录可比对，拒绝以「假通过」运行。"
+            "请设置为若干受监控的真实绝对路径（用 %r 分隔）。" % (ENV_WATCH_PATHS, os.pathsep))
+    items = [p.strip() for p in raw.split(os.pathsep) if p.strip()]
+    for p in items:
+        for marker in _PLACEHOLDER_MARKERS:
+            if marker in p:
+                raise H3AuditWatchConfigError(
+                    "%s 含脱敏占位符 %r，不是可监控的真实路径：%r" % (ENV_WATCH_PATHS, marker, p))
+        if not pathlib.Path(p).is_absolute():
+            raise H3AuditWatchConfigError(
+                "%s 必须是绝对路径：%r" % (ENV_WATCH_PATHS, p))
+    if len(items) < 2:
+        raise H3AuditWatchConfigError(
+            "%s 至少需要 2 个不同的监控路径，当前只有 %d 个：%r"
+            % (ENV_WATCH_PATHS, len(items), items))
+    seen = {}
+    for p in items:
+        key = os.path.normcase(os.path.normpath(p))
+        if key in seen:
+            raise H3AuditWatchConfigError(
+                "%s 的监控路径塌缩为同一目录（%r 与 %r），反污染比对将永远相等"
+                % (ENV_WATCH_PATHS, seen[key], p))
+        seen[key] = p
+    return tuple(items)
 
 
 def fingerprint(path) -> tuple:
@@ -213,5 +274,17 @@ def fingerprint(path) -> tuple:
     return (str(path), "DIR", st.st_mtime_ns, len(kids), kids)
 
 
-def fingerprint_all() -> tuple:
-    return tuple(fingerprint(p) for p in REAL_WATCHED)
+def fingerprint_all(paths=None) -> tuple:
+    """Fingerprint the watched directories. Unconfigured -> raises."""
+    return tuple(fingerprint(p) for p in (watched_paths() if paths is None else paths))
+
+
+def detect_pollution(before, after) -> list:
+    """Human-readable list of entries that changed between two fingerprints.
+
+    Used by the positive control: a gate that cannot report a real violation is
+    not a gate, so the test writes a deliberate file and asserts this finds it.
+    """
+    if len(before) != len(after):
+        return ["fingerprint 条目数变化：%d -> %d" % (len(before), len(after))]
+    return ["%s: %s -> %s" % (b[0], b[1:], a[1:]) for b, a in zip(before, after) if b != a]

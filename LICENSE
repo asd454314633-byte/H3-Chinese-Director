@@ -22,25 +22,66 @@ SOFTWARE.
 
 ---
 
-Scope note (non-binding, for clarity only)
+## Scope of this MIT grant
 
-This licence covers the material authored by this repository's authors:
-the single published Chinese director console workflow
-(workflows/current/V29_chinese_director_production_8197.json), the self-developed
-ComfyUI custom nodes under custom_nodes/local_author/, the frontend control layer,
-the setup/verify/sanitize scripts, the fixtures and the documentation.
+This MIT grant covers **only the material authored by this repository's authors**:
 
-It does NOT cover, and this repository does not redistribute:
-  * any model weights (no .safetensors / .ckpt / .pt / .pth / .gguf / shards /
-    caches are contained here — see docs/MODELS.md for upstream sources);
-  * the ComfyUI engine itself (upstream: Comfy-Org/ComfyUI, GPL-3.0);
-  * third-party custom nodes, which are referenced with pinned versions and
-    installed from their own upstream repositories
-    (see docs/UPSTREAM_ATTRIBUTION.md and THIRD_PARTY_NOTICES.md);
-  * historic workflows, historical engineering reports and the production-side
-    changelog/audit archive, which are archived locally by the author and are
-    deliberately not published (they are not part of the Software above).
+- the single published Chinese director console workflow
+  `workflows/current/V29_chinese_director_production_8197.json`
+  (**excluding** the SDPose multi-person pose subgraph contained in it — see below);
+- the self-developed ComfyUI custom nodes under `custom_nodes/local_author/`
+  (**excluding** any file that is a verbatim third-party original);
+- the frontend control layer, the setup/verify/sanitize scripts, the fixtures,
+  the manifests and the documentation.
 
-Where such local archives are cited by the published benchmarks, the citation
-uses a LOCAL_ARCHIVE: prefix and names the source document; the referenced bytes
-are not distributed with this repository.
+It does **not** cover, and this repository **must not** be read as granting any licence over:
+
+1. **Model weights.** No `.safetensors` / `.ckpt` / `.pt` / `.pth` / `.gguf` / shards /
+   caches are distributed here. See `docs/MODELS.md` for upstream sources and their own
+   licences, regional and commercial terms.
+2. **The ComfyUI engine.** Upstream `Comfy-Org/ComfyUI`, GPL-3.0. This repository is a
+   *consumer* of the engine and ships no engine source.
+3. **Third-party custom nodes.** Referenced with upstream URLs and installed from their own
+   repositories; their source is **not** vendored. See `docs/UPSTREAM_ATTRIBUTION.md` and
+   `THIRD_PARTY_NOTICES.md`.
+4. **The official MiniMax H3 prompt-writing Skill files.**
+   `custom_nodes/.../H3_V28_Director/skills/official-minimax-h3-prompt/` previously contained
+   three files that are **verbatim third-party originals** from
+   `MiniMax-AI/MiniMax-H3` (`skills/h3-prompt-writing/`). They have been **removed from this
+   public package**. The upstream repository reports **no SPDX licence** (`license == null`
+   on the GitHub API) and is distributed under the Hugging Face *MiniMax Community License
+   Agreement*, which carries regional and commercial restrictions.
+   **Status: `LICENSE_HOLD` — not re-distributed, not re-licensed under MIT.**
+   See the `README.md` inside that directory for the pinned blob SHAs, the byte-equality
+   evidence and the external-install path.
+5. **`ComfyUI-H3-AudioRefine` (Adudeguyman).** An **external runtime dependency**, not
+   vendored. Upstream MIT; pinned to commit `fd5a8dfe8b4c636b1877abd07d11ebc985eddbed`.
+   Install it yourself with `scripts/setup/install_h3_audio_refine.py`; it keeps its own
+   upstream MIT notice and copyright (`© 2026 Adudeguyman`).
+6. **Historic workflows, historical engineering reports and the production-side
+   changelog/audit archive.** Archived locally by the author and deliberately not published;
+   they are not part of the Software above.
+
+## Third-party material that IS distributed, and under which licence
+
+- **SDPose multi-person pose subgraph** (inside the published workflow,
+  `definitions.subgraphs[1]`): a **derivative** of the official ComfyUI blueprint
+  `blueprints/video_to_pose_map_sdpose_multi_person.json` from
+  `Comfy-Org/workflow_templates` (repo licence **MIT**), pinned to commit
+  `cdccb2ee7a7cd0baee4630cf7186283a98ab408f`. The ComfyUI host being GPL-3.0 does **not**
+  extend to that independent MIT repository. The full upstream coordinates, the identical
+  parts and the itemised local modifications are listed in `THIRD_PARTY_NOTICES.md` §4.
+  This subgraph is therefore **not** MIT-from-this-repository; it is MIT-from-Comfy-Org with
+  the modification notice required by that licence.
+
+Where local archives are cited by the published benchmarks, the citation uses a
+`LOCAL_ARCHIVE:` prefix and names the source document; the referenced bytes are not
+distributed with this repository.
+
+## No legal conclusion is asserted beyond the evidence
+
+Items marked `LICENSE_HOLD` in `THIRD_PARTY_NOTICES.md` §7 and in `REMAINING_HOLD.md` are
+**unresolved**: upstream licences could not be verified from an authoritative source. This
+repository does **not** assert that they are MIT, does **not** assert they are incompatible,
+and does **not** distribute them. Users must resolve those items themselves before relying
+on them.

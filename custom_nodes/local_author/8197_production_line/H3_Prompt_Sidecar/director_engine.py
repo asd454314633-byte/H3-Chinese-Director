@@ -143,7 +143,10 @@ class Director:
             validate(en,zh,declared)
             previous={re.sub(r'\W','',v).casefold() for v in ledger['recent_dialogue']}
             for line in candidate['new_dialogue']:
-                if line not in en or line not in zh or re.sub(r'<REDACTED_USER_PROMPT>','',line).casefold() in previous:raise DirectorError('<REDACTED_USER_PROMPT>')
+                if line not in en or line not in zh or re.sub(r'<REDACTED_USER_PROMPT>','',line).casefold() in previous:
+                    # 2026-10-13: 该错误码同样被整句占位符替换。占位符不是错误码，
+                    # 这里按上下文还原为可诊断的表述（判定逻辑本身未改动）。
+                    raise DirectorError('DUPLICATE_DIALOGUE: 该句未同时出现在中英两稿，或与本剧近期对白重复')
             draft={'id':did,'story_id':s['story_id'],'base_revision':s['revision'],'status':'DRAFT','english_prompt':en,'chinese_prompt':zh,'candidate_state_delta':candidate,'global_settings':settings,'delta':delta,'auto_continue':auto,'model':response.model,'provider':response.provider,'latency_ms':response.latency_ms,'llm_attempts':attempt+1}
             draft.update(model_audit)
             s['drafts'][did]=draft;s['global_settings']=settings
