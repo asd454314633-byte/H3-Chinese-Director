@@ -35,6 +35,35 @@ The animated preview is made from a **genuine recording**. It is silently croppe
 - **Verification scope:** the local 8197 V29 production baseline has prior real GPU acceptance. The v29.4 public source remediation passed offline tests; no fresh full GPU end-to-end retest was performed.
 - **Distribution scope:** one sanitized workflow and its control code only. Model weights, ComfyUI itself and external third-party dependencies are not bundled.
 
+## A complete director pipeline — more than a six-segment editor
+
+**10 core capability groups · multi-level mode selectors · 22-item feature/status matrix.** These are **feature categories, not 10 or 22 successful GPU runs**. [Detailed capability, mode, evidence and test catalog (Chinese)](docs/CAPABILITY_CATALOG.md).
+
+| Capability | Real workflow features and selectors | Evidence boundary |
+|---|---|---|
+| One Chinese user-facing control point | **N159 main console**, generation/image/size/speed/Ref2VA/attention/GUIDE/memory selectors | Production workflow published with **181 top-level nodes / 218 links / 2 embedded subgraphs** |
+| Six-segment story execution | Individual editable prompts, continuous/independent runs, resume from selected segment, success/state tracking | Historical 8197 six-segment generation succeeded; task and state validation remains scope-specific |
+| Native AV-latent continuation | Actual predecessor latent and provenance/receipt checks, **not just MP4 concatenation** | Historical SEG2 continued from SEG1 latent |
+| Input and model routes | Text-to-video, single-image, first/last frame (FL2VA), multi-reference (Ref2VA), optional video/audio references | **A 4-step FL2VA route is not proof of 4-image Ref2VA support** |
+| Sampling/speed variants | Default / quality / high-speed modes; Ref2VA original / FastH3 VSA 4-step / PDD 8-step; a separate FastH3 V2 8-step branch | Some are bypassed by default; no general speed/quality superiority claim |
+| Five attention categories | FastH3 VSA, SLA, Sage Attention, INT8 Attention, Core BlockSparse | **SLA has no runnable implementation; BlockSparse is experimental** |
+| Cache and memory control | Conditioning PreBake, Adaptive Host Warm, selective TE unload, pre-VAE partial eviction | PreBake historical offline regression: **26 PASS**; memory margin is limited |
+| Output and safety | Six-success automatic merge, story/prompt/latent identity and cache checks | Historical six-segment merge: **996 frames / 41.5 seconds** |
+| Advanced non-default routes | High-motion anomaly detection, time-smear, second-pass/window repair, guide timeline and V2V/RV2V hooks | Some remain partial, default-off or architecture-only |
+| Engineering/reproducibility | Source nodes, model/dependency manifest, Windows install, testing and provenance records | Models and private assets excluded; public v29.4 was not re-tested with a fresh full GPU E2E |
+
+### Test and benchmark figures (not interchangeable)
+
+| Evidence class | Published numbers | Limitation |
+|---|---|---|
+| Historical 8197 six video segments | **132.926 / 92.423 / 90.368 / 87.255 / 91.070 / 90.277 s**; merge **41.5 s / 996 frames** | Individual observed runs, **not** averages or v29.4 fresh GPU re-runs |
+| v29.4 publication gates | **33 PASS / 0 FAIL / 2 HOLD**; core tests **13/13 + 7/7 + 17/17**; isolated-install checks **9/9** | Static/integration checks, **not** 33 videos |
+| Legacy V28 broad test suite | **285 executed; 16 failures / 56 errors / 14 skipped** | Existing failures disclosed; **not** 285/285 PASS |
+| Performance records | **120 rows** (12 verified core + 108 extracted); VRAM observation **22,016 MiB** | Rows are evidence records, **not** independent successful GPU tests; low-memory safety not established |
+
+**Inspect evidence:** [Full mode catalog](docs/CAPABILITY_CATALOG.md) · [Feature acceptance matrix](docs/FEATURE_MATRIX.md) · [Benchmark summary](benchmarks/SUMMARY.md) · [v29.4 test report](docs/acceptance/FINAL_GATE_REPORT.md) · [original-work attribution](AUTHOR_CONTRIBUTIONS.md).
+
+
 An **all-Chinese centralised "director console"** for **MiniMax-H3 video generation**: a self-developed
 control layer that chains
 *six-segment story editing → continuous video generation scheduling → previous-segment AV-latent
