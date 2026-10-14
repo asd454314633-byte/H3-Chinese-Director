@@ -4,6 +4,8 @@
 
 **中文说明：** [H3 中文导演台](README.md) · [Latest published release: v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
+**Choose a release line:** This repository is the **frozen 8197 V29.4 production publication**. The [separate public 8207 experimental repository](https://github.com/asd454314633-byte/H3-8207-Experimental) is a `v0.1.0-preview` source preview, **not a production upgrade or the same GPU-validated build**.
+
 ## Recorded showcase | video result and six-segment editor
 
 ![H3 Chinese Director — genuine recorded video frame and six-segment interface](assets/showcase/showcase-cover.jpg)
@@ -28,7 +30,7 @@ The animated preview is made from a **genuine recording**. It is silently croppe
 ### Project at a glance
 
 - **Get the workflow:** [single frozen V29 JSON](workflows/current/V29_chinese_director_production_8197.json) · [release downloads](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
-- **Install:** [Windows setup](docs/INSTALL_WINDOWS_8207.md) · [models and requirements](docs/MODELS.md) · [feature/acceptance matrix](docs/FEATURE_MATRIX.md)
+- **Install:** [8197 Windows setup (legacy 8207 filename)](docs/INSTALL_WINDOWS_8207.md) · [models and requirements](docs/MODELS.md) · [feature/acceptance matrix](docs/FEATURE_MATRIX.md)
 - **Primary features:** all-Chinese control panel; six linked video segments; previous-segment latent continuation; automatic merging; reference routing; run-receipt validation and state safeguards.
 - **Verification scope:** the local 8197 V29 production baseline has prior real GPU acceptance. The v29.4 public source remediation passed offline tests; no fresh full GPU end-to-end retest was performed.
 - **Distribution scope:** one sanitized workflow and its control code only. Model weights, ComfyUI itself and external third-party dependencies are not bundled.
@@ -41,8 +43,7 @@ and run-receipt validation → VRAM/RAM lifecycle engineering* into one producti
 
 > **This repository publishes exactly ONE workflow**:
 > `workflows/current/V29_chinese_director_production_8197.json` (the 8197 frozen production build).
-> Historic workflows, the 8207 experimental workflows and the historical engineering archive are
-> **no longer distributed publicly**; they stay in the author's local production archive only.
+> This repository **does not ship** past workflows, 8207 experimental workflows, or the historical engineering archive. The separate [8207 experimental source-preview repository](https://github.com/asd454314633-byte/H3-8207-Experimental) is publicly available; its release and acceptance scope remain independent of the frozen 8197 build.
 
 > This project is **original engineering led by the local author**: the Chinese director console
 > (evolved from V16 to V29), the self-developed ComfyUI nodes, the frontend control layer, the
