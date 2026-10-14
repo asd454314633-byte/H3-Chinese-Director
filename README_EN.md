@@ -1,5 +1,12 @@
 # H3 Chinese Director — ComfyUI MiniMax H3 Six-Segment Video Workflow
 
+
+## Genuine demo and provenance
+
+[English demo notes](docs/DEMO_EN.md) · [中文说明](docs/DEMO.md) · [Evidence summary](docs/DEMO_EVIDENCE.md)
+
+Genuine 8197 V29 UI captures and a 50-second local review edit use existing 2026-10-09 acceptance results; no new GPU generation was submitted. **Public image/video release remains on HOLD** due to output territorial licensing and the existing binary-content gate. This page does not claim the full media package has been uploaded.
+
 **A Chinese-language ComfyUI director console and production workflow for MiniMax-H3 multi-segment video generation.** It combines six-segment story planning, continuous video generation, cross-segment AV-latent continuation, Ref2VA reference-video/image routing, FL2VA first/last-frame routing, conditioning pre-bake caching, and automatic video merging.
 
 **中文说明：** [H3 中文导演台](README.md) · [Latest published release: v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
