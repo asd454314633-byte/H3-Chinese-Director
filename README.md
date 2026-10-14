@@ -4,6 +4,8 @@
 
 **English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
 
+**选择版本：** 当前仓库是 **8197 V29.4 冻结正式线**；需要研究新功能，请前往 [8207 独立公开实验仓库](https://github.com/asd454314633-byte/H3-8207-Experimental)（`v0.1.0-preview`）。两者的工作流、运行状态与 GPU 验收**不能互相代表**。
+
 ## 真实录屏展示｜视频效果与六段导演台
 
 ![H3 中文导演台：真实录屏画面及六段剧情界面](assets/showcase/showcase-cover.jpg)
@@ -28,7 +30,7 @@
 ### 快速查看
 
 - **下载工作流：** [唯一 V29 冻结版 JSON](workflows/current/V29_chinese_director_production_8197.json) · [正式发布包](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
-- **安装与使用：** [Windows 安装指南](docs/INSTALL_WINDOWS_8207.md) · [模型与依赖清单](docs/MODELS.md) · [功能与验收状态](docs/FEATURE_MATRIX.md)
+- **安装与使用：** [8197 Windows 安装指南（沿用旧文件名）](docs/INSTALL_WINDOWS_8207.md) · [模型与依赖清单](docs/MODELS.md) · [功能与验收状态](docs/FEATURE_MATRIX.md)
 - **核心能力：** 中文控制面板｜六段视频连续生成｜上一段 latent 接续｜自动合并｜参考图/参考视频路线选择｜运行回执与状态安全检查
 - **验证边界：** 本机 8197 V29 生产基线已有 GPU 实测；公开版 V29.4 的源码整改通过离线检查，**没有**重新执行完整 GPU 端到端生成。
 - **注意：** 本仓库仅发布一套经脱敏的工作流与自研控制层，不包含模型权重、ComfyUI 本体及须独立安装的第三方依赖。
@@ -36,7 +38,7 @@
 面向 **MiniMax-H3 视频生成** 的**全中文集中控制导演台**：一个把「六段剧情编辑 → 连续视频生成调度 → 上一段 AV Latent 接续 → Conditioning PreBake 缓存 → 自动六段合并 → 工作流安全门控与运行回执校验 → 显存/内存生命周期工程化」串成一条生产链的完整控制层与自研节点实现。
 
 > **本仓库只发布一套工作流**：`workflows/current/V29_chinese_director_production_8197.json`（8197 冻结生产版）。
-> 历代工作流、8207 实验工作流与历史工程档案**不再公开分发**，只保留在生产侧本机归档。
+> 本仓库**不分发**历代旧工作流、8207 实验工作流与历史工程档案；8197 历史工程资料仍由作者本机归档。8207 已在[独立实验仓库](https://github.com/asd454314633-byte/H3-8207-Experimental)单独发布**实验预览版**，不属于本仓库的正式生产发布。
 
 > 本项目是**本地作者主导的原创工程**：从 V16 一路演进到 V29 的中文导演台体系、自研 ComfyUI 节点、前端控制层、缓存/回执安全机制与内存生命周期优化，均由本仓库作者设计、实现、调试与验收。
 > **MiniMax-H3 模型、ComfyUI 引擎、第三方 PDD/VSA/注意力优化节点不属于本作者原创**，其归属见 [`docs/UPSTREAM_ATTRIBUTION.md`](docs/UPSTREAM_ATTRIBUTION.md) 与 [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md)。
