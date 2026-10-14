@@ -5,12 +5,11 @@
 本公开包**只发布 8197 冻结生产线**：唯一工作流
 `workflows/current/V29_chinese_director_production_8197.json` 与
 `custom_nodes/local_author/8197_production_line/` 自研源码。
-8207 实验线源码**不在本公开包内**（仅保留在作者本机生产归档）；下表说明两条线的验收边界，
-避免把 8197 的验收结论误用到未公开、未同等验收的 8207 线。
+8207 实验线源码**不在本 8197 包内**；目前已有[单独公开的 8207 实验预览仓库](https://github.com/asd454314633-byte/H3-8207-Experimental)。两仓不共享验收结论；下表只说明 8197 的历史工程对照，不代表 8207 预览版完成同等 GPU 验收。
 
 ---
 
-## 0. 两条线的验收边界（8197 公开 / 8207 不公开）
+## 0. 两条线的验收边界（8197 冻结正式 / 8207 独立实验预览）
 
 | 维度 | 8197（冻结生产，公开包内） | 8207（独立运行/实验，**不在公开包内**） |
 |---|---|---|
@@ -117,7 +116,7 @@ git clone https://github.com/obvpm/comfyui-obvpm.git && git -C comfyui-obvpm che
 xcopy /E /I /Y "%REPO%\custom_nodes\local_author\8197_production_line\*" "%BASE%\ComfyUI\custom_nodes\"
 ```
 
-> 8207 实验线源码不在本公开包内，无需也无法安装；本仓库不提供第二条线的复制命令。
+> 8207 实验线**不随本 8197 包安装**，本指南不提供跨线混装命令。若要研究独立实验版，请先阅读[8207 仓库](https://github.com/asd454314633-byte/H3-8207-Experimental)的安装和验收限制，不能将 8197 正式包中的节点与 8207 实验节点混为一个已验证环境。
 
 ### 2.4 外部依赖（需要相关功能时安装）
 
