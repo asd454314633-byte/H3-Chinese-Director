@@ -37,7 +37,7 @@ The animated preview is made from a **genuine recording**. It is silently croppe
 
 ## A complete director pipeline — more than a six-segment editor
 
-**10 core capability groups · multi-level mode selectors · 22-item feature/status matrix.** These are **feature categories, not 10 or 22 successful GPU runs**. [Detailed capability, mode, evidence and test catalog (Chinese)](docs/CAPABILITY_CATALOG.md).
+**10 core capability groups · multi-level mode selectors · 24-item feature/status matrix.** These are **feature categories, not 10 or 24 successful GPU runs**. [Detailed capability, mode, evidence and test catalog (Chinese)](docs/CAPABILITY_CATALOG.md).
 
 | Capability | Real workflow features and selectors | Evidence boundary |
 |---|---|---|
@@ -45,12 +45,12 @@ The animated preview is made from a **genuine recording**. It is silently croppe
 | Six-segment story execution | Individual editable prompts, continuous/independent runs, resume from selected segment, success/state tracking | Historical 8197 six-segment generation succeeded; task and state validation remains scope-specific |
 | Native AV-latent continuation | Actual predecessor latent and provenance/receipt checks, **not just MP4 concatenation** | Historical SEG2 continued from SEG1 latent |
 | Input and model routes | Text-to-video, single-image, first/last frame (FL2VA), multi-reference (Ref2VA), optional video/audio references | **A 4-step FL2VA route is not proof of 4-image Ref2VA support** |
-| **Voice-timbre reference / voice cloning guidance** | **Three standalone voice-reference slots (1/2/3) + reference-video soundtrack**, speaker/role assignment, `<Audio N>` prompt mapping, audio checks | Source implementation for supported Ref2VA 8-step routes; individual voice clip 2–15 s and enabled references total ≤15 s. **Not evidence of three successful GPU voice-clone tests.** |
+| **Voice-timbre reference / voice cloning guidance** | **Three standalone voice-reference slots (1/2/3) + reference-video soundtrack**, speaker/role assignment, `<Audio N>` prompt mapping, audio checks | Source implementation for supported Ref2VA 8-step routes; individual voice clip 2–15 s and enabled references total ≤15 s. **Owner-confirmed: voice timbre reference has been tested and used reliably over time** (`OWNER_CONFIRMED_LONG_TERM_USE`). Public per-voice receipts are not currently published; no unsupported GPU test count is invented. |
 | Sampling/speed variants | Default / quality / high-speed modes; Ref2VA original / FastH3 VSA 4-step / PDD 8-step; a separate FastH3 V2 8-step branch | Some are bypassed by default; no general speed/quality superiority claim |
 | Five attention categories | FastH3 VSA, SLA, Sage Attention, INT8 Attention, Core BlockSparse | **SLA has no runnable implementation; BlockSparse is experimental** |
 | Cache and memory control | Conditioning PreBake, Adaptive Host Warm, selective TE unload, pre-VAE partial eviction | PreBake historical offline regression: **26 PASS**; memory margin is limited |
 | Output and safety | Six-success automatic merge, story/prompt/latent identity and cache checks | Historical six-segment merge: **996 frames / 41.5 seconds** |
-| Advanced non-default routes | High-motion anomaly detection, time-smear, second-pass/window repair, guide timeline and V2V/RV2V hooks | Some remain partial, default-off or architecture-only |
+| Advanced controls and experimental routes | **Production-tested Clean Rebase with official single-frame Guide**; separate high-motion anomaly detection, time-smear, second-pass/window repair, multi-point Guide timeline, Pose/Depth and V2V/RV2V hooks | Guide frame0 on segment 4 of the 2026-10-09 six-segment run PASS; other branches may remain partial/default-off |
 | Engineering/reproducibility | Source nodes, model/dependency manifest, Windows install, testing and provenance records | Models and private assets excluded; public v29.4 was not re-tested with a fresh full GPU E2E |
 
 ### Test and benchmark figures (not interchangeable)
@@ -62,6 +62,8 @@ The animated preview is made from a **genuine recording**. It is silently croppe
 | Legacy V28 broad test suite | **285 executed; 16 failures / 56 errors / 14 skipped** | Existing failures disclosed; **not** 285/285 PASS |
 | Performance records | **120 rows** (12 verified core + 108 extracted); VRAM observation **22,016 MiB** | Rows are evidence records, **not** independent successful GPU tests; low-memory safety not established |
 
+
+**Additional field evidence:** Stable8 and PDD8 each produced an 8-second/8-step video in prior controlled runs (111.186s / 110.052s). The owner confirms ongoing reliable voice-timbre reference use. A single-frame Clean Rebase + Guide at segment 4, five join points and automatic merge passed the 2026-10-09 production acceptance in its tested scope. See [details](docs/CAPABILITY_CATALOG.md).
 **Inspect evidence:** [Full mode catalog](docs/CAPABILITY_CATALOG.md) · [Feature acceptance matrix](docs/FEATURE_MATRIX.md) · [Benchmark summary](benchmarks/SUMMARY.md) · [v29.4 test report](docs/acceptance/FINAL_GATE_REPORT.md) · [original-work attribution](AUTHOR_CONTRIBUTIONS.md).
 
 
