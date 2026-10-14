@@ -4,7 +4,7 @@
 > PASS 误当作 8207 的 PASS）；8207 线源码不在本 8197 发布包内，安装本仓库**不需要**该列对应的任何组件。
 > 2026-10-14 已出现[独立的 8207 实验预览仓库](https://github.com/asd454314633-byte/H3-8207-Experimental)；下表 8207 历史列**不是**该仓库 `v0.1.0-preview` 的逐项验收报告。
 
-状态定义：
+状态定义（另外使用 `OWNER_CONFIRMED_LONG_TERM_USE` 表示项目所有者亲历的长期真实使用；`SOURCE_VERIFIED` 仅表示公开源码与接口存在，不能当作当前候选 GPU 证明）：
 
 - `PASS` —— 有真实验收（真实生成 / 真实回归 / 真实浏览器）记录
 - `PASS_WITHIN_TESTED_SCOPE` —— 通过，但仅限已测范围，不推广到未知人物/镜头
@@ -37,6 +37,8 @@
 | 20 | 音频 8 步 / 音频升级 | A 自研 | PARTIAL | NOT_TESTED | 可选分支，非主验收范围 |
 | 21 | 前端开关持久化（tab 切换双态保持） | A 自研 | PASS（1.52.7 实测） | — | `TAB_SWITCH_MODE_PERSISTENCE = PASS` |
 | 22 | GUIDE 权威归一 | A 自研 | PASS | 不适用（8207 冻结件不含该补丁） | helper sync 无法翻转 GUIDE OFF |
+| 23 | **Clean Rebase + 官方单帧 Guide frame0** | A/C 组合 | **PASS_WITHIN_TESTED_SCOPE** | NOT_TESTED（当前候选） | 2026-10-09 六段真生成，第4段使用前段第152帧；五处接缝真实核查 |
+| 24 | **音色参考 / 声音克隆引导** | C 编排 + A 校验 | **OWNER_CONFIRMED_LONG_TERM_USE** | SOURCE_VERIFIED；当前公开预览 GPU 未复测 | 3 个独立音色槽 + 视频音轨参考；用户确认曾实测并长期稳定使用；公开包暂无逐音色脱敏回执 |
 
 ## 明确未验收 / 不做的事
 
