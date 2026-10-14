@@ -14,6 +14,23 @@
 | 缓存与资源治理 | Conditioning PreBake；根据故事、段号、文字修订、参考槽、模型身份校验缓存；TE 卸载、Host Warm、VAE 前部分释放 | `h3_conditioning_prebake`、`h3_adaptive_host_warm_inplace`、`h3_selective_te_unload`、`h3_partial_diffusion_evict` |
 | 结果与安全 | 六段满足 SUCCESS/身份门禁后自动合并；旧 group/prompt/latent receipt 不可任意冒用；错误前序、缺缓存拒绝 | `H3_Prompt_Sidecar`、`H3_V29_ManualChainMerge`；历史验收有自动合并证据 |
 
+## 用户能直接看见的 N159 操作阶段与独立路线
+
+N159「H3 全中文傻瓜导演台」不只是六段剧情输入框。**公开源码 `H3OperationSelector.MODES` 共六个 UI 状态**（其中第五项为实验自动化、第六项为关闭/无选中状态）：
+
+| N159 操作 | 实际操作含义 | 可用性边界 |
+|---|---|---|
+| **只跑一采** | 主模型采样并输出新视频，坏段检测与二采链旁路 | 正式一采基线 |
+| **检测坏段** | 计算高速动作异常区间/曲线并输出检测报告 | 本模式不启动扩时或二采 |
+| **放大/扩时** | 仅建立扩时预览与方案报告 | 不进行后续二采 |
+| **执行二采** | 对扩时/初始潜空间做独立修复采样 | 用于已配置对应输入的修复链；不等于默认自动执行 |
+| **自动检测+扩时+二采（实验）** | 检测后按坏段条件开启窗口二采，无异常时直通结果 | **实验模式**，不宣称任意视频都验证通过 |
+| **无任何选项状态** | 所有运行分支旁路 | 非正常视频生成模式 |
+
+这些是「**操作阶段**」，与「生成模式」「一采速度档」「Ref2VA 后端」「注意力」「尺寸」「Guide/连续增强」等**彼此独立的控制轴**，不能把不同控制轴的名称混为一张互斥菜单。
+
+另有两项经常被忽略的功能：**前端操作阶段卡片有独立执行按钮**，并对已点亮节点做可视化提示；**FL2VA 的 F4 与 FastH3 V2 是两条路线，Ref2VA 的 Stable8 与 PDD8 又是另一条分支族**。核心源码：[H3OperationSelector/路由声明](../custom_nodes/local_author/8197_production_line/h3_workflow_helpers/nodes.py)、[前端多模式卡片](../custom_nodes/local_author/8197_production_line/h3_workflow_helpers/web/h3_workflow_ux.js)。
+
 ## 2. 工作流的模式与技术路线（直接核对 JSON）
 
 ### 2.1 视频生成 / 图片输入 / 素材模式
@@ -34,11 +51,11 @@
 | 一采「默认（原样）」 | `H3SpeedModeSelector`；原始链 `er_sde` 等 | 原生产选择器内的基线路线 |
 | 一采「画质优先」 | 独立的 `res_multistep` 采样器选择 | 有隔离的选择器与执行位，不能以名称推断所有内容优于默认 |
 | 一采「高速平衡」 | `euler`、Sage Attention、INT8 VAE 等针对该路线的分支 | 有执行位；性能/画质需要**同条件对比**，不可宣称普遍提速比例 |
-| Ref2VA 原始/参考路线 | `H3Ref2vaBackendSelector` 的原版分支 | 与 FL2VA 的单图/首尾帧区别对待 |
-| Ref2VA FastH3 VSA | Turbo 4-step LoRA、VSA Gate、Sigma 12/3、Euler / simple 4 步等 | 独立 4 步路线；某些节点默认旁路；**不等于 FL2VA 四图参考** |
+| Ref2VA 正式后端选择 | `H3Ref2vaBackendSelector` 当前公开菜单：**稳定多参考8步 / PDD多参考8步 / Native Ref2VA 20步诊断** | Stable8/PDD8 曾有真实视频验收；20步是高级诊断，**不是推荐生产默认路线** |
+| Ref2VA VSA 历史兼容链 | Turbo 4-step LoRA、VSA Gate、Sigma 12/3 等相关节点仍留在画布 | **当前 Ref2VA 后端菜单已隐藏旧 VSA/Original 选项，仅保留回滚兼容节点；不得将其宣传为现在可选的主生产档** |
 | Ref2VA PDD 8-step | `MiniMaxH3PDDAccApply`、8步、Euler、PDD Acc；可切标准或 INT8 Attention | 公开 JSON 默认显示 `PDD多参考8步` 选择器值；受真实节点、模型、许可和版本约束 |
 | FastH3 V2 8-step | `UNETLoader` + `MiniMaxH3SigmaShift` 视频 10 / 音频 3 + Core VSA + simple 8 步 + `res_multistep` | **工作流保留、默认关闭**；不可当作本公开版 GPU 验收结果 |
-| FL2VA FastH3 F4 | `H3Fl2vRouteSelector` 和 `MiniMaxH3ImageToVideo` | **首帧/首尾帧家族路线**，不能称为 Ref2VA 多图实测 |
+| **FL2VA FastH3 F4（4步）** | `H3Fl2vRouteSelector`：F4（社区V1重打包）；`MiniMaxH3ImageToVideo`（文生/单图/首尾帧家族） | **F4 是 FL2VA 二级路线**，不是当前 Ref2VA 后端菜单；多图 Ref2VA 成功不能由本项推导 |
 
 ### 2.3 五路注意力技术：明确区分
 
