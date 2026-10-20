@@ -1,5 +1,7 @@
 # 性能汇总（benchmarks/SUMMARY.md）
 
+> **2026-10-20 历史档案补充导航**：见 [H3 V29 历史性能与裁决总索引](https://github.com/asd454314633-byte/H3-8207-Experimental/blob/main/docs/H3_PERFORMANCE_HISTORY_AND_DECISIONS_20261020.md)。此索引补充此前本摘要未覆盖的 2026-10-05~10-09 Pinned ON/OFF、TE 卸载、Host Warm、PDD8 文件重读因果闭环、NVFP4 画质拒绝、PreBake 无损对照和单卡性能专项 v2。它来自作者本机维修归档文本；本文件原有 120 条逐行基准与证据等级**不改写、不重新计数**。
+
 > 数据来自历史报告与日志的**真实记录**。本文件**不补齐、不估算、不挑选最快值**。
 > 逐行明细见 [`runs.csv`](runs.csv)，每行都带 `evidence_file` / `evidence_line` 与 `evidence_level`。
 > **出处的可核验性**：`evidence_file` 以 `LOCAL_ARCHIVE:` 前缀指向作者本机的历史归档（该归档**不在公开包内**）。
