@@ -1,5 +1,7 @@
 # H3 中文导演台｜ComfyUI MiniMax H3 Chinese Director
 
+**[跨版本历史性能与修复最终裁决索引（2026-10-20）](https://github.com/asd454314633-byte/H3-8207-Experimental/blob/main/docs/H3_PERFORMANCE_HISTORY_AND_DECISIONS_20261020.md)** —— 已收录本 8197 正式线 10 月 5—9 日的 Pinned Memory、TE/H3 卸载、Adaptive Host Warm、权重重复读取根因、PreBake、Stable8/PDD8、INT8 与主模型 NVFP4 对照，以及后续 8207 独立验证边界。**本仓库仍是 8197 冻结生产线；此链接仅提供历史证据索引，不修改冻结源码或工作流。**
+
 **面向 ComfyUI 的 MiniMax-H3 多段连续视频生成工作流与全中文导演台。** 支持六段剧情编辑、连续生成与跨段 AV Latent 接续、Ref2VA 多图参考/FL2VA 首尾帧路线控制、Conditioning PreBake 缓存、自动视频合并。适合希望用中文管理长剧情、人物连续性和分段生成流程的 ComfyUI 用户。
 
 **English:** [H3 Chinese Director — MiniMax H3 six-segment workflow for ComfyUI](README_EN.md) · [GitHub Release v29.4](https://github.com/asd454314633-byte/H3-Chinese-Director/releases/tag/v29.4)
